@@ -1,0 +1,144 @@
+body {
+  background-image: linear-gradient(to right, #CECECE , white);
+  font-family:"Bookman Old Style"
+}
+
+/* Navbar CSS */
+
+.navbar
+{
+    border:4px solid black;
+    /*background-image:linear-gradient(to right, #1E90FF, #87CEEB);*/
+    background-image:linear-gradient(to right, #F5F5DC, white)
+}
+
+.nav-item
+{
+    font-size:16px;
+    text-align:center;
+    border:1.5px solid black;
+    border-radius:12px;
+    font-weight:bold;
+    margin:10px;
+    background-image:linear-gradient(to right, #191970, #0000CD);
+    padding:3px;
+    width:160px;
+}
+
+.nav-link
+{
+    color:white;    
+}
+
+.nav-link:hover, .nav-link:focus
+{
+    color:yellow;
+}
+
+#nav_search_bar
+{
+    border:solid 2px black;
+}
+
+/* Applications Page CSS */
+
+#applications_header
+{
+    background-image:linear-gradient(to right, #191970, #0000CD);
+    color:white;
+    border-radius:15px;
+    margin-top:18px;
+    margin-left:15px;
+    padding:15px;
+    text-align:center;
+    display:inline-block;
+}
+
+#applications_search
+{
+    border:solid 2px black;
+    margin-left:15px;
+    margin-bottom:15px;
+}
+
+#applications_desc
+{
+    font-weight:bold;
+    margin-left:15px;
+}
+
+#applications_table
+{
+    text-align:center;
+    width:98%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.application_status
+{
+    font-weight:bold;
+}
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: #cfe2ff;
+}
+
+/* Agreements Page CSS */
+
+#agreement_desc
+{
+    font-weight:bold;
+    margin-left:15px;
+}
+
+#agreement_letter
+{
+    margin-left:15px;
+}
+
+#agreement_form
+{
+    display:table;
+}
+
+#agreement_form p
+{
+    display:table-row;
+}
+
+#agreement_form label 
+{
+    display:table-cell;
+    padding-left:40px;
+    padding-bottom:15px;
+}
+
+#agreement_form input
+{
+    display:table-cell;
+    width:150%;
+}
+
+.agreement_input
+{
+    width:35%;
+}
+
+#agreement_button
+{
+    color:white;
+    font-weight:bold;
+    background-image:linear-gradient(to right, #191970, #0000CD);
+    margin-left:30px;
+    margin-top:5px;
+}
+
+/* More Information CSS */
+
+textarea
+{
+    margin-left:40px;
+}
