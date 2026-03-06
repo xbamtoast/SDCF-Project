@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hope Grant Application</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/forms.css">
+    <link rel="stylesheet" href="../../static/css/landing.css">
+</head>
+
+<body>
+     <!-- Navbar (same as login page) -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="https://www.silverdollarcityfoundation.com/">
+                <img src="logo.png" alt="Silver Dollar City Foundation" class="nav-logo-img">
+            </a>
+        </div>
+
+        <ul class="nav-links">
+            <li class="hover-bar">
+                <a href="https://www.silverdollarcityfoundation.com/about/">About Us</a>
+                <div class="hover-panel">
+                    <ul>
+                        <li><a href="https://www.silverdollarcityfoundation.com/history">History</a></li>
+                        <li><a href="https://www.silverdollarcityfoundation.com/purpose">Purpose</a></li>
+                        <li><a href="https://www.ozarkly.com/stories/mindy-honey">Executive Director</a></li>
+                        <li><a href="https://www.silverdollarcityfoundation.com/meet-our-board">Board of Directors</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="hover-bar">
+                <a href="https://www.silverdollarcityfoundation.com/grantmaking/">Projects</a>
+                <div class="hover-panel">
+                    <ul>
+                        <li><a href="https://www.silverdollarcityfoundation.com/care-for-kids">Care for Kids</a></li>
+                        <li><a href="https://www.silverdollarcityfoundation.com/hope-grants">Hope Grants</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li><a href="https://www.silverdollarcityfoundation.com/news-media/">News</a></li>
+            <li><a href="https://www.silverdollarcityfoundation.com/contact-us/">Connect</a></li>
+        </ul>
+    </nav>
+    <!-- Main section -->
+    <div class="form-container">
+        <h1>Hope Grant </h1>
+        <h2>Infomation Section</h2>
+        <p>Silver Dollar City Foundation is a private 501c3 organization and the philanthropic arm of the 1880s theme park
+            Silver Dollar City. Funding for the foundation is made possible through
+            the generosity of Silver Dollar City, Showboat Branson Belle, White Water and other generous donors. Our mission
+            is to “partner with communities to equip and inspire children,”
+            and our vision is “today’s children become tomorrow’s thriving adults.” We work to fulfill our mission and
+            vision by partnering with 14 local school districts to provide each
+            of those districts with funding to meet both immediate physical needs as well as make long-term impacts.
+            <br><br>
+            Through our partnership with Care to Learn, our Together for Kids funding helps you meet the immediate physical
+            needs of students, whether that is clothing and shoes to
+            eyeglasses to even helping parents with rent or utilities. Our Hope Grants are focused on future, long-term
+            impacts on families and children in our community and can be a
+            great catalyst for a bigger project. The amount of funding available for Hope Grants is based on what the
+            foundation has available to award, which means award amounts
+            may vary year to year and future funding is not always guaranteed. <br><br>
+            As you complete this year’s Hope Grant application, I encourage you think about how your proposed project will
+            bring hope for a brighter future for the children and
+            families you serve. What are the biggest issues facing your students and families in your district and can you
+            begin to address one of those issues with the Hope Grant?
+            Think of the Hope Grant as a jump-start grant for a project or program that without these funds would not come
+            to fruition.
+        </p>
+        <p>Things to know about applying:</p>
+        <ul>
+            <li>Application Deadline: <strong>August 14th, 2026</strong></li>
+            <li>Maximum Award Amount for 2026-2027 School Year: <strong>$10,000 per district</strong></li>
+        </ul>
+        <p>Should you have any questions or want to dicuss your project, please contact: <br>
+            Mindy Honey (Executive Director) <br>
+            Email: mindy.honey@silverdollarcity.com <br>
+            Phone (call or text): 417-230-2761
+        </p>
+        <h2>Application Section</h2>
+        <p>Please respond to each question, all fields are required.</p>
+        <form action="" method="POST">
+            <section id="contact-information">
+                <h3>Contact Information</h3>
+                <!-- Ideally, we might use a dropdown for the school district to prevent typos and keep data clean -->
+                <div>
+                    <label for="school-district">School District</label>
+                    <input type="text" id="school-district" name="school_district" required>
+                </div>
+                <div>
+                    <label for="program-title">Program Title</label>
+                    <input type="text" id="program-title" name="program_title" required>
+                </div>
+                <!-- Superintendent info -->
+                <fieldset>
+                    <h3>Superintendent Information</h3>
+                    <div>
+                        <label for="superintendent-first-name">First Name</label>
+                        <input type="text" id="superintendent-first-name" name="superintendent_first_name" required>
+                    </div>
+                    <div>
+                        <label for="superintendent-last-name">Last Name</label>
+                        <input type="text" id="superintendent-last-name" name="superintendent_last_name" required>
+                    </div>
+                    <div>
+                        <label for="superintendent-phone">Phone Number</label>
+                        <input type="tel" id="superintendent-phone" name="superintendent_phone" required>
+                    </div>
+                    <div>
+                        <label for="superintendent-email">Email</label>
+                        <input type="email" id="superintendent-email" name="superintendent_email" required>
+                    </div>
+                </fieldset>
+                <!-- Primary contact info -->
+                <fieldset>
+                    <h3>Primary Contact</h3>
+                    <div>
+                        <label for="primary-contact-first-name">First Name</label>
+                        <input type="text" id="primary-contact-first-name" name="primary_contact_first_name" required>
+                    </div>
+                    <div>
+                        <label for="primary-contact-last-name">Last Name</label>
+                        <input type="text" id="primary-contact-last-name" name="primary_contact_last_name" required>
+                    </div>
+                    <div>
+                        <label for="primary-contact-phone">Phone Number</label>
+                        <input type="tel" id="primary-contact-phone" name="primary_contact_phone" required>
+                    </div>
+                    <div>
+                        <label for="primary-contact-email">Email</label>
+                        <input type="email" id="primary-contact-email" name="primary_contact_email" required>
+                    </div>
+                </fieldset>
+                <!-- address section-->
+                <fieldset>
+                    <h3>School District Mailing Address</h3>
+                    <div>
+                        <label for="address-street">Street Address</label>
+                        <input type="text" id="address-street" name="address_street" required>
+                    </div>
+                    <div>
+                        <label for="address-city">City</label>
+                        <input type="text" id="address-city" name="address_city" required>
+                    </div>
+                    <div>
+                        <label for="address-state">State</label>
+                        <input type="text" id="address-state" name="address_state" maxlength="2" placeholder="e.g. MO"
+                            required>
+                    </div>
+                    <div>
+                        <label for="address-zip">ZIP Code</label>
+                        <input type="text" id="address-zip" name="address_zip" maxlength="10" required>
+                    </div>
+                </fieldset>
+                <h3>Grant Amount</h3>
+                <div>
+                    <label for="grant-amount-requested">Grant Amount Requested ($)</label>
+                    <input type="number" id="grant-amount-requested" name="grant_amount_requested" min="0" step="0.01"
+                        required>
+                </div>
+            </section>
+            <!-- Program Narrative Section -->
+            <section id="program-narrative">
+                <h2>Program Narrative</h2>
+                <p>Please respond to each of the following questions: </p>
+                <!-- question 1 -->
+                <fieldset>
+                    <h3>1. Project Summary</h3>
+                    <!--Could make a dropdown for indicating if its an ongoing or a new project??-->
+                    <div>
+                        <!-- ************************ 150 words for this text box, need JS and logic to account for this**************************** -->
+                        <p><label for="project-summary">
+                                Please summarize your project. In approximately 150 words tell us what you plan to do, why
+                                you plan
+                                to do this project, who will be involved, and
+                                what you hope to accomplish? Is this an ongoing project or a new project?
+                            </label>
+                        </p>
+                        <textarea name="project_summary" id="project-summary" rows="8"></textarea>
+                    </div>
+                </fieldset>
+                <!-- question 2 -->
+                <fieldset>
+                    <h3>2. Needs Statement</h3>
+                    <div>
+                        <p><label for="needs-statement">Describe the need(s) that will be addressed through this
+                                project.</label></p>
+                        <textarea id="needs-statement" name="needs_statement" rows="8"></textarea>
+                    </div>
+                </fieldset>
+                <!-- question 3 -->
+                <fieldset>
+                    <h3>3. Impact</h3>
+                    <div>
+                        <p><label for="impact-children">a. Approximately how many children and what ages/grades will be
+                                impacted during the current school year by this project?</label></p>
+                        <textarea id="impact-children" name="impact_children" required></textarea>
+                    </div>
+                    <div>
+                        <p><label for="impact-other-individuals">b. Approximately how many other individuals will be
+                                impacted by this project this school year?</label></p>
+                        <textarea id="impact-other-individuals" name="impact_other_individuals" required></textarea>
+                    </div>
+                    <div>
+                        <p><label for="impact-long-term">c. What is the long-term impact of this grant and how does this
+                                project bring hope to those impacted? What change will happen because of this project this
+                                school year? What long-lasting impact will this project have on students?</label></p>
+                        <textarea id="impact-long-term" name="impact_long_term" required rows="8"></textarea>
+                    </div>
+                </fieldset>
+                <!-- question 4 -->
+                <fieldset>
+                    <h3>4. Collaboration</h3>
+                    <div>
+                        <p><label for="collaboration">
+                                Describe any collaborative entities the district will be working with, such as other
+                                financial
+                                support, volunteers, churches, or other resources.
+                            </label></p>
+                        <textarea id="collaboration" name="collaboration" rows="8"></textarea>
+                    </div>
+                </fieldset>
+                <!-- question 5 -->
+                <fieldset>
+                    <h3>5. Budget</h3>
+                    <div>
+                        <p><label for="budget">
+                                What is your project budget? How will Hope Grant funds be used? Please list major expenses
+                                expected
+                                to be funded by the grant as well as other expenses you expect to fund by the district,
+                                other
+                                grants, or funding sources.
+                            </label></p>
+                        <textarea id="budget" name="budget" rows="8"></textarea>
+                    </div>
+                </fieldset>
+                <!-- question 6 -->
+                <fieldset>
+                    <h3>6. Success</h3>
+                    <div>
+                        <p><label for="success">
+                                How will you measure the success of your goal? Please share 1-3 program goals and any
+                                measurable
+                                objectives for each goal.
+                            </label></p>
+                        <textarea id="success" name="success" rows="8"></textarea>
+                    </div>
+                </fieldset>
+            </section>
+            <!-- Submit application button -->
+            <button type="submit" id="btn-submit">Submit Application</button>
+        </form>
+    </div>
+</body>
+
+</html>
