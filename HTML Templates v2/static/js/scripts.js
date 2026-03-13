@@ -66,8 +66,11 @@ function colorApplicationStatus()
        console.log(new_color)
        console.log(statuses[i].innerText)
        statuses[i].style.color = new_color;
+       statuses[i].style.fontWeight = "bold";
     }
 
 }
 
 colorApplicationStatus();
+
+
