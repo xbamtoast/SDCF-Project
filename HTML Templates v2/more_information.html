@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opening Act</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/forms.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+        </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+    <style>
+        tr a {
+            color: blue;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id = "navbar"></div>
+
+
+    <h3 id="applications_header">More Information</h3>
+    <form id="agreement_form_initial" method="POST">
+        <p><label style="padding-right:30px;" for="name">School District: </label> <input class="agreement_input"
+                type="text" id="name" name="name"></p>
+        <p><label for="initials">Program Title: </label> <input class="agreement_input" type="text" id="initials"
+                name="initials"></p>
+        <p><label for="title">Superintendent Name: </label> <input class="agreement_input" type="text" id="title"
+                name="title"></p>
+        <p><label for="date">Primary Contact:</label><input type="text" id="date" name="date"></p>
+        <p><label for="date">Primary Phone:</label><input type="text" id="date" name="date"></p>
+        <p><label for="date">Primary Email:</label><input type="text" id="date" name="date"></p>
+        <p><label for="date">District Mailing Address:</label><input type="text" id="date" name="date"></p>
+        <p><label for="date">Grant Amount Requested:</label><input type="text" id="date" name="date"></p>
+
+        <hr>
+        <p><label for="w3review">Please summarize your project: </label></p>
+        <textarea id="w3review" name="w3review" rows="4" cols="64"></textarea>
+        <p><label for="w3review">Describe the needs that will be addressed through this project.</label></p>
+        <textarea id="w3review" name="w3review" rows="4" cols="64"></textarea>
+        <p><label for="w3review">
+                <ul style = "padding-left:60px;">
+                    <li>How many children will be impacted?</li>
+                    <li>How many other people will be impacted?</li>
+                    <li>How many other people will be impacted?</li>
+                </ul>
+            </label></p>
+        <textarea id="w3review" name="w3review" rows="4" cols="64"></textarea>
+        <p><label for="w3review">Collaboration</label></p>
+        <textarea id="w3review" name="w3review" rows="4" cols="64"></textarea>
+        <p><label for="w3review">Budget</label></p>
+        <textarea id="w3review" name="w3review" rows="4" cols="64"></textarea>
+        <p><label for="w3review">Success Metrics</label></p>
+        <textarea id="w3review" name="w3review" rows="4" cols="64"></textarea>
+        <p></p>
+        <button type="button" id="agreement_button" value="Submit">Submit</button>
+    </form>
+
+
+
+    <script src="scripts.js"></script>
+    <script>
+        $(function(){
+            $('#navbar').load('static/resources/navbar.html');
+        });
+    </script>
+</body>
+
+</html>
