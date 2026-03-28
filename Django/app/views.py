@@ -17,6 +17,7 @@ def w9_upload(request): #view to render w9 upload page
     return render(request, 'w9_upload.html')
 
 def hope_grant_application(request):
+
     if request.method == "POST":
         form = HopeGrantApplicationForm(request.POST)
         if form.is_valid():
