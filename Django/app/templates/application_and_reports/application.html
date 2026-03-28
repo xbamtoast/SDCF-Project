@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Hope Grant Application{% endblock %}
+{% comment %} doing this so that the link is in a head tag {% endcomment %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="form-container">
+    <a href="/" class="back-btn">← Back to Portal</a>
+    <!-- Info section -->
+    <h1>Hope Grant Application</h1>
+    <h2>Information Section</h2>
+    <p>Silver Dollar City Foundation is a private 501c3 organization and the philanthropic arm of the 1880s theme park
+        Silver Dollar City. Funding for the foundation is made possible through
+        the generosity of Silver Dollar City, Showboat Branson Belle, White Water and other generous donors. Our mission
+        is to “partner with communities to equip and inspire children,”
+        and our vision is “today’s children become tomorrow’s thriving adults.” We work to fulfill our mission and
+        vision by partnering with 14 local school districts to provide each
+        of those districts with funding to meet both immediate physical needs as well as make long-term impacts.
+        <br><br>
+        Through our partnership with Care to Learn, our Together for Kids funding helps you meet the immediate physical
+        needs of students, whether that is clothing and shoes to
+        eyeglasses to even helping parents with rent or utilities. Our Hope Grants are focused on future, long-term
+        impacts on families and children in our community and can be a
+        great catalyst for a bigger project. The amount of funding available for Hope Grants is based on what the
+        foundation has available to award, which means award amounts
+        may vary year to year and future funding is not always guaranteed. <br><br>
+        As you complete this year’s Hope Grant application, I encourage you think about how your proposed project will
+        bring hope for a brighter future for the children and
+        families you serve. What are the biggest issues facing your students and families in your district and can you
+        begin to address one of those issues with the Hope Grant?
+        Think of the Hope Grant as a jump-start grant for a project or program that without these funds would not come
+        to fruition.
+    </p>
+    <p>Things to know about applying:</p>
+    <ul>
+        <li>Application Deadline: <strong>August 14th, 2026</strong></li>
+        <li>Maximum Award Amount for 2026-2027 School Year: <strong>$10,000 per district</strong></li>
+    </ul>
+    <p>Should you have any questions or want to dicuss your project, please contact: <br>
+        Mindy Honey (Executive Director) <br>
+        Email: mindy.honey@silverdollarcity.com <br>
+        Phone (call or text): 417-230-2761
+    </p>
+
+    <!-- Question section  -->
+<form method="POST">
+    {% csrf_token %}
+
+    <h3>Contact Information</h3>
+    <div>{{ form.first_name.label_tag }} {{ form.first_name }}</div>
+    <div>{{ form.last_name.label_tag }} {{ form.last_name }}</div>
+    <div>{{ form.email.label_tag }} {{ form.email }}</div>
+    <div>{{ form.school_district.label_tag }} {{ form.school_district }}</div>
+    <div>{{ form.project_name.label_tag }} {{ form.project_name }}</div>
+    <div>{{ form.program_title.label_tag }} {{ form.program_title }}</div>
+
+    <h3>Superintendent Information</h3>
+    <div>{{ form.superintendent_first_name.label_tag }} {{ form.superintendent_first_name }}</div>
+    <div>{{ form.superintendent_last_name.label_tag }} {{ form.superintendent_last_name }}</div>
+    <div>{{ form.superintendent_phone.label_tag }} {{ form.superintendent_phone }}</div>
+    <div>{{ form.superintendent_email.label_tag }} {{ form.superintendent_email }}</div>
+
+    <h3>Primary Contact</h3>
+    <div>{{ form.primary_contact_first_name.label_tag }} {{ form.primary_contact_first_name }}</div>
+    <div>{{ form.primary_contact_last_name.label_tag }} {{ form.primary_contact_last_name }}</div>
+    <div>{{ form.primary_contact_phone.label_tag }} {{ form.primary_contact_phone }}</div>
+    <div>{{ form.primary_contact_email.label_tag }} {{ form.primary_contact_email }}</div>
+
+    <h3>School District Mailing Address</h3>
+    <div>{{ form.address_street.label_tag }} {{ form.address_street }}</div>
+    <div>{{ form.address_city.label_tag }} {{ form.address_city }}</div>
+    <div>{{ form.address_state.label_tag }} {{ form.address_state }}</div>
+    <div>{{ form.address_zip.label_tag }} {{ form.address_zip }}</div>
+
+    <h3>Grant Amount</h3>
+    <div>{{ form.grant_amount_requested.label_tag }} {{ form.grant_amount_requested }}</div>
+
+    <h2>Program Narrative</h2>
+    <div>{{ form.project_summary.label_tag }} {{ form.project_summary }}</div>
+    <div>{{ form.needs_statement.label_tag }} {{ form.needs_statement }}</div>
+    <div>{{ form.impact_children.label_tag }} {{ form.impact_children }}</div>
+    <div>{{ form.impact_other_individuals.label_tag }} {{ form.impact_other_individuals }}</div>
+    <div>{{ form.impact_long_term.label_tag }} {{ form.impact_long_term }}</div>
+    <div>{{ form.collaboration.label_tag }} {{ form.collaboration }}</div>
+    <div>{{ form.budget.label_tag }} {{ form.budget }}</div>
+    <div>{{ form.success.label_tag }} {{ form.success }}</div>
+
+    <button type="submit" id="btn-submit">Submit Application</button>
+</form>
+</div>
+
+{% endblock %}

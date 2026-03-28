@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mid-Year Report{% endblock %}
+{% comment %} doing this so that the link is in a head tag {% endcomment %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+    <a href="/" class="back-btn">← Back to Portal</a>
+
+    <h1>Hope Grant Mid-Year Report</h1>
+    <p>Due <strong>December 18th, 2026</strong></p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" id="btn-midyear-submit">Submit Mid-Year Report</button>
+    </form>
+</div>
+
+{% endblock %}

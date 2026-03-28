@@ -1,5 +1,4 @@
 /* form container */
-
 .form-container {
     background: #ffffff;
     padding: 40px;
@@ -11,7 +10,6 @@
 }
 
 /* headings*/
-
 .form-container h1 {
     font-size: 28px;
     color: #2f3a44;
@@ -47,6 +45,18 @@
     margin-bottom: 24px;
 }
 
+.form-container ul {
+    list-style: none;
+    padding-left: 20px;
+    margin: 0 0 16px 0;
+}
+
+.form-container ul li {
+    color: #4B5563;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
 /* field divs */
 .form-container div {
     margin-bottom: 16px;
@@ -62,7 +72,6 @@
 }
 
 /* inputs */
-
 .form-container input[type="text"],
 .form-container input[type="email"],
 .form-container input[type="tel"],
@@ -110,6 +119,19 @@
     background-color: #0056b3;
 }
 
+.back-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #4B5563;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.back-btn:hover {
+    color: #c65a2e;
+}
+
 /* responsive */
 @media screen and (max-width: 600px) {
     .form-container {
@@ -124,87 +146,4 @@
     .form-container h2 {
         font-size: 18px;
     }
-}
-
-/* CSS for the Agreement Pages */
-
-#agreement_form_initial
-{
-    display:table;
-}
-
-#agreement_form_initial h6
-{
-    display:table-row;
-}
-
-.agreement_input
-{
-    width:35%;
-}
-
-#agreement_form_initial label
-{
-    display:table-cell;
-    padding-left:20px;
-    padding-bottom:15px;
-    padding-right:50px;
-}
-
-#agreement_form_initial p
-{
-    display:table-row;
-}
-
-#agreement_form_initial input
-{
-    display:table-cell;
-    width:150%;
-}
-
-#agreement_form_text
-{
-    margin-top:10px
-}
-
-/* CSS for the Home Pages */
-
-.homepage_h1, .homepage_h4
-{
-    padding-left:15px;
-}
-
-.homepage_p
-
-{
-    padding-left:15px;
-    padding-top:15px;
-}
-
-.homepage_button
-{
-    border-radius:8px;
-    color:white;
-    background-image:linear-gradient(to right, #191970, #0000CD);
-    font-weight:bold;
-    font-size:20px;
-    margin:15px;
-}
-
-/* CSS for the Application Status Tables */
-
-#applications_table
-{
-    width:95%;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:center;
-}
-
-canvas#signature {
-  border: 2px solid black;
-}
-
-form>* {
-  margin: 10px;
 }
