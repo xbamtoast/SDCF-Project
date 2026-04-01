@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Upload Test{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class = "form-container">
+<form method="post" enctype="multipart/form-data">
+    <h1>Upload Tax Form</h1>
+    <label>Please select tax form (.PDF):</label>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+</div>
+{% endblock %}

@@ -2,7 +2,9 @@ from django.db import models
 
 # Create your models here.
 #  Making an abstract base model since all 3 forms will use these specific fields
+
 class BaseSubmission(models.Model):
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -15,6 +17,7 @@ class BaseSubmission(models.Model):
         abstract = True
 
 # Inherits properties from base submission class
+
 class HopeGrantApplication(BaseSubmission):
     # Program Title
     program_title = models.CharField(max_length=200)
@@ -50,6 +53,9 @@ class HopeGrantApplication(BaseSubmission):
     budget = models.TextField()
     success = models.TextField()
 
+    def __str__(self):
+        return f"{self.project_name} - Mid-Year Report"
+
 class MidYearReport(BaseSubmission):
     # Main text input questions
     progress_update = models.TextField()
@@ -81,3 +87,42 @@ class EndYearReport(BaseSubmission):
 
     def __str__(self):
         return f"{self.last_name}, {self.first_name} - {self.project_name}"
+
+class ApplicationComment(models.Model):
+
+    name = models.CharField(max_length = 100)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    submission = models.ForeignKey(HopeGrantApplication, on_delete = models.CASCADE)
+
+class MidYearComment(models.Model):
+
+    name = models.CharField(max_length = 100)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    submission = models.ForeignKey(MidYearReport, on_delete = models.CASCADE)
+
+class EndYearComment(models.Model):
+
+    name = models.CharField(max_length = 100)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    submission = models.ForeignKey(EndYearReport, on_delete = models.CASCADE)
+
+class Document(models.Model):
+    description = models.CharField(max_length = 255, blank = True)
+    document = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add = True)
+
+# class RecipientAgreementForm(BaseSubmission):
+
+#     approval_date = models.DateField()
+#     printed_name = models.TextField()
+#     recipient_title = models.TextField()
+#     recipient_signature_date = models.DateField()
+
+# class GlobalVariables(models.Model):
+
+#     value_desc = models.TextField()
+#     value_actual = models.TextField()
+#     # For instance, a value_desc could be "Submission Due Date" and then value_actual could be "December 19, 2026"

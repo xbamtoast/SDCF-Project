@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Hope Grant Application{% endblock %}
+{% comment %} doing this so that the link is in a head tag {% endcomment %}
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="landing-container">
+
+    <h3>Hope Grants Application</h3> Please login or create an account below</h3>
+    <h2>Login</h2>
+
+    <form id="loginForm" method="POST" action="{% url 'accounts:user_login' %}">
+        {% csrf_token %}
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+        
+        <input type="text" name="username" id="username" placeholder="Username" required><br>
+        <input type="password" name="password" id="password" placeholder="Password" required><br>
+        <label for="role">Login as:</label>
+        <select name="role" id="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select><br>
+
+        <button type="submit">Login</button>
+
+        <button type="button" id="createAccountBtn" class="secondary-btn"><a href = "{% url 'accounts:user_register' %}">
+            Create Account</a>
+        </button>
+            <button type="button" id="forgotPasswordBtn" class="secondary-btn"><a href = "{% url 'accounts:password_reset' %}">
+            Reset Passwprd</a>
+        </button>
+    </form>
+
+    <p id="message"></p>
+</div>
+{% endblock %}
