@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+
+<h2>Register</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <p>
+        <label>Username:</label><br>
+        {{ form.username }}
+        {{ form.username.errors }}
+    </p>
+
+    <p>
+        <label>Email:</label><br>
+        {{ form.email }}
+        {{ form.email.errors }}
+    </p>
+
+    <p>
+        <label>Password:</label><br>
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+    </p>
+
+    <p>
+        <label>Confirm Password:</label><br>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+    </p>
+
+    <button type="submit">Register</button>
+</form>
+
+<p>
+    Already have an account? <a href="/login">Login</a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Mid-Year Report{% endblock %}
+{% comment %} doing this so that the link is in a head tag {% endcomment %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div id = "comment-section">
+<div class="form-container">
+    <a href="/" class="back-btn">← Back to Portal</a>
+
+    <h1>Hope Grant Mid-Year Report</h1>
+    <p>Due <strong>December 18th, 2026</strong></p>
+
+    <form action = "{% url 'app:mid_year_report_detail' form.instance.pk %}" method="GET">
+        {{ form.as_p }}
+        <button type="submit" id="btn-midyear-submit">Submit Mid-Year Report</button>
+    </form>
+
+</div>
+
+<hr>
+
+<section id = "comment-section-down">
+<h1>Comments</h1>
+{% for comment in comments.all %}
+    <div class="comment">
+        <p><strong>{{ comment.name }}</strong> says: {{ comment.message }}</p>
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<div class = "form-container" style = "margin-left:0;margin-top:25px;">
+<form method="POST">
+    <h2>Write Something...</h2>
+    {% csrf_token %}
+        <div>{{ commentform.name.label_tag }} {{ commentform.name }}</div>
+        <div>{{ commentform.message.label_tag }} {{ commentform.message }}</div>
+    <button type="submit" id="btn-midyear-submit">Submit Comment</button>
+</form>
+</div>
+</section>
+
+{% endblock %}

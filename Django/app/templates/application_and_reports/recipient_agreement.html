@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Recipient Agreement{% endblock %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+{% block content %}
+
+ <div class="form-container">
+        <p>
+            <!--Pulls Date, Grant Recipient, Address From DB. Dont really need admin agreement-->
+            <label>Date:</label><!--{{agreement.date}}--><br>
+            <label>Grant Recipient:</label><!--{{agreement.grantRecipient}}--><br>
+            <label>Address:</label><!--{{agreement.address}}--><br>
+            Dear <!--{{agreement.superintendantName}}-->, Silver Dollar City Foundation is pleased to inform you that
+            your
+            grant request for <!--{{agreement.projectName}}--> for <!--{{agreement.projectAmount}}--> has been approved.
+            We are incredibly grateful for the work you are doing and look forward to hearing about the lives you will
+            impact this year!<br>
+
+            By accepting the Grant Funds, you agree to the following terms:<br>
+
+        <ul id="agreementTerms">
+            <li>To submit a completed W9. <a href="w9submission.html">Submit W9 here</a> </li>
+            <li>Use awarded funds to support the project as described in your grant application.</li>
+            <li>Provide a mid-year update about how the project is going, and difficulties you are encountering, and any
+                successes you are experiencing.<a href="midyearreport.html">Submit Mid-Year report here</a></li>
+            <li>Complete and submit a final report by May 1, 2027<a href="finalreport">Submit final report here</a></li>
+            <li>Provide a video, approximately 90 seconds in length, to report how Silver Dollar City Foundation's Hope
+                Grant has impacted your district this school year.(videos may be recorded on cellphones). <a
+                    href="dropbox.html">Submit your video here</a></li>
+            <li>Meet with the Foundation Executive Director for an end-of-year meeting in May 2027 to review your
+                results.
+            </li><br>
+        </ul>
+        Please confirm your agreement by completing this form and submitting your district's completed W9.
+        </p>
+
+        <form method="post">
+            <label>Printed Name:</label>
+            <input type="text" id="recName" name="recName" placeholder="Recipient Name"><br>
+            <label>Title:</label>
+            <input type="text" id="recTitle" name="recTitle" placeholder="Recipient Title"><br>
+            <label>Date:</label>
+            <input type="date" id="recSignedDate" name="recSignedDate"><br><br>
+            <p> Signature Here. </p>
+            <input type="text" id="recSignature" name="recSignature" placeholder="Recipient Initials"><br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>
+
+{% endblock %}
+
+</html>

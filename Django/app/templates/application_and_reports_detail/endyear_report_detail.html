@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}End of Year Report{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <a href="/" class="back-btn">← Back to Home</a>
+    <h1>Hope Grant - Final Report</h1>
+    <p>Please answer the following questions.<br>
+        Due <strong>May 1st, 2027</strong>
+    </p>
+
+    <form action = "{% url 'app:end_year_report_detail' form.instance.pk %}" method="GET">
+        {% csrf_token %}
+
+        <h3>Contact Information</h3>
+        <div>{{ form.first_name.label_tag }} {{ form.first_name }}</div>
+        <div>{{ form.last_name.label_tag }} {{ form.last_name }}</div>
+        <div>{{ form.title.label_tag }} {{ form.title }}</div>
+        <div>{{ form.email.label_tag }} {{ form.email }}</div>
+        <div>{{ form.school_district.label_tag }} {{ form.school_district }}</div>
+        <div>{{ form.project_name.label_tag }} {{ form.project_name }}</div>
+
+        <h2>Report Questions</h2>
+        <div>{{ form.project_overview.label_tag }} {{ form.project_overview }}</div>
+        <div>{{ form.children_impacted.label_tag }} {{ form.children_impacted }}</div>
+        <div>{{ form.other_individuals_impacted.label_tag }} {{ form.other_individuals_impacted }}</div>
+        <div>{{ form.long_term_impact.label_tag }} {{ form.long_term_impact }}</div>
+        <div>{{ form.hope_impact.label_tag }} {{ form.hope_impact }}</div>
+        <div>{{ form.remaining_funds.label_tag }} {{ form.remaining_funds }}</div>
+        <div>{{ form.budget.label_tag }} {{ form.budget }}</div>
+        <div>{{ form.what_worked_well.label_tag }} {{ form.what_worked_well }}</div>
+        <div>{{ form.challenges.label_tag }} {{ form.challenges }}</div>
+        <div>{{ form.story_1.label_tag }} {{ form.story_1 }}</div>
+        <div>{{ form.story_2.label_tag }} {{ form.story_2 }}</div>
+        <div>{{ form.future_funding.label_tag }} {{ form.future_funding }}</div>
+        <div>
+            <label for="id_video_link">12. Video Upload Link - Please submit a video approximately 90 seconds in length that Silver Dollar City Foundation may share about how your district was impacted by your Hope Grant. Your video may include comments from administrators, counselors, teachers, or other staff. <strong><em>Please do not share personally identifiable information unless the family has consented.</em></strong> These videos may be shared publicly.</label>
+            {{ form.video_link }}
+        </div>
+
+        <button type="submit" id="btn-final-report">Submit Final Report</button>
+    </form>
+</div>
+
+<hr>
+
+<section id = "comment-section-down">
+<h1>Comments</h1>
+{% for comment in comments.all %}
+    <div class="comment">
+        <p><strong>{{ comment.name }}</strong> says: {{ comment.message }}</p>
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<div class = "form-container" style = "margin-left:0;margin-top:25px;">
+<form method="POST">
+    <h2>Write Something...</h2>
+    {% csrf_token %}
+        <div>{{ commentform.name.label_tag }} {{ commentform.name }}</div>
+        <div>{{ commentform.message.label_tag }} {{ commentform.message }}</div>
+    <button type="submit" id="btn-midyear-submit">Submit Comment</button>
+</form>
+</div>
+</section>
+
+{% endblock %}

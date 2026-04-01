@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'accounts'
-]
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,15 +80,21 @@ WSGI_APPLICATION = 'mainsite.wsgi.application'
 
 DATABASES = {
 
-    'default': 
-    {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',   
-        'PORT': '3306',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+
+    # 'default': 
+    # {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'JG_GroupH',
+    #     'USER': '???',
+    #     'PASSWORD': '???',
+    #     'HOST': '???',   
+    #     'PORT': '3306',
+    # }
 
 }
 
@@ -128,4 +135,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 #STATICFILES_DIRS = ['static_global']
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
