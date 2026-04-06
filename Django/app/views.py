@@ -4,6 +4,10 @@ from .forms import HopeGrantApplicationForm, MidYearReportForm, EndYearReportFor
 from .models import HopeGrantApplication, MidYearReport, EndYearReport, ApplicationComment, MidYearComment, EndYearComment
 from django.contrib import messages
 
+from .models import HopeGrantApplication, MidYearReport, EndYearReport, ApplicationComment, MidYearComment, EndYearComment
+from .models import Form, Question, Submission, Answer, SchoolDistrict
+from .forms import SubmissionForm, build_answer_form
+
 # Home/landing page view
 
 def home(request):
@@ -29,7 +33,6 @@ def w9_upload(request):
 # Blank Hope Grant Application View
 
 def hope_grant_application(request):
-
     if request.method == "POST":
         form = HopeGrantApplicationForm(request.POST)
         if form.is_valid():
@@ -125,3 +128,60 @@ def end_year_report_detail(request, pk):
         commentform = EndYearCommentForm()
 
     return render(request, 'application_and_reports_detail/endyear_report_detail.html', {'form':form, 'commentform':commentform, 'comments':comments})
+
+def dynamic_form(request, form_id):
+    form_obj = get_object_or_404(Form, id=form_id)
+    questions = Question.objects.filter(form=form_obj)
+
+    if request.method == 'POST':
+        submission_form = SubmissionForm(request.POST)
+        answer_form = build_answer_form(questions, request.POST)
+
+        if submission_form.is_valid() and answer_form.is_valid():
+            submission = submission_form.save(commit=False)
+            submission.submitted_by = request.user
+            submission.form = form_obj
+            submission.save()
+
+            for question in questions:
+                Answer.objects.create(
+                    submission=submission,
+                    question=question,
+                    answer_text=answer_form.cleaned_data.get(f'question_{question.id}', '')
+                )
+            return redirect('home')
+    else:
+        submission_form = SubmissionForm()
+        answer_form = build_answer_form(questions, data = None, filled_in = False, answer_texts = [])
+
+    return render(request, 'application_and_reports/dynamic_form.html', {
+        'form_obj': form_obj,
+        'submission_form': submission_form,
+        'answer_form': answer_form,
+    })
+
+def dynamic_form_detail(request, form_id, submission_id):
+
+    # Read in the Form object.
+
+    form_obj = get_object_or_404(Form, id = form_id)
+
+    # Read in the Submission object.
+    
+    submission = get_object_or_404(Submission, id = submission_id)
+    submission_form = SubmissionForm(instance = submission)
+
+    # Read in the Answer objects.
+
+    questions = Question.objects.filter(form = form_obj)
+    answers = Answer.objects.filter(submission_id = submission_id)
+
+    answer_texts = []
+    for i in answers:
+        answer_texts.append(i.answer_text)
+
+    answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
+    
+    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form}
+
+    return render(request, 'application_and_reports_detail/dynamic_form_detail.html', context = context)

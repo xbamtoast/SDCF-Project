@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ form_obj.name }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <a href="/" class="back-btn">← Back to Home</a>
+    <h1 style = "font-weight:bold;text-align:center;padding-bottom:10px;">{{ form_obj.name }}</h1>
+
+    {% if form_obj.due_date %}
+    <p>Due <strong><span style = "background-color:yellow">{{ form_obj.due_date }}</span></strong></p>
+    {% endif %}
+
+    {% if form_obj.intro_text %}
+    {{ form_obj.intro_text|linebreaks }}
+    {% endif %}
+
+    <form action = "{% url 'app:dynamic_form_detail' form_obj.id submission.id %}" method="GET">
+
+        {% csrf_token %}
+
+        <h3>Contact Information</h3>
+        <div>{{ submission_form.first_name.label_tag }} {{ submission_form.first_name }}</div>
+        <div>{{ submission_form.last_name.label_tag }} {{ submission_form.last_name }}</div>
+        <div>{{ submission_form.email.label_tag }} {{ submission_form.email }}</div>
+        <div>{{ submission_form.school_district.label_tag }} {{ submission_form.school_district }}</div>
+        <div>{{ submission_form.project_name.label_tag }} {{ submission_form.project_name }}</div>
+
+        <h2>Questions</h2>
+        {% for a in answer_form %}
+        <div>
+            {{ a.label_tag }}
+            {{ a }}
+        </div>
+        {% endfor %}
+
+        {% if form_obj.footer_text %}
+        {{ form_obj.footer_text|linebreaks }}
+        {% endif %}
+
+        {% if form_obj.footer_link %}
+        <a href="{{ form_obj.footer_link }}" target="_blank">
+            {{ form_obj.footer_link_label|default:"Click here" }}
+        </a>
+        {% endif %}
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}

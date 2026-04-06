@@ -1,6 +1,7 @@
 from django import forms
 from .models import MidYearReport, HopeGrantApplication, EndYearReport, ApplicationComment, MidYearComment, EndYearComment
 from .models import Document
+from .models import Submission, Answer, Question
 
 class HopeGrantApplicationForm(forms.ModelForm):
     class Meta:
@@ -124,3 +125,71 @@ class DocumentFormTest(forms.ModelForm):
     class Meta:
         model = Document
         fields = ('description', 'document', )
+
+class SubmissionForm(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ['first_name', 'last_name', 'email', 'school_district', 'project_name']
+        
+def build_answer_form(questions, data = None, filled_in = False, answer_texts = []):
+
+    defaults = []
+
+    if filled_in == False:
+        for i in range(0, len(questions)):
+            defaults.append('')
+    else:
+        for i in range(0, len(questions)):
+            defaults.append(answer_texts[i])
+
+    j = 0
+    fields = {}
+    for question in questions:
+        if question.field_type == 'textarea':
+            fields[f'question_{question.id}'] = forms.CharField(
+                label=question.question_text,
+                widget=forms.Textarea(attrs={'rows': 6}),
+                required=question.required,
+                initial = defaults[j]
+            )
+        elif question.field_type == 'email':
+            fields[f'question_{question.id}'] = forms.EmailField(
+                label=question.question_text,
+                required=question.required,
+                initial = defaults[j]
+            )
+        elif question.field_type == 'number':
+            fields[f'question_{question.id}'] = forms.IntegerField(
+                label=question.question_text,
+                required=question.required,
+                initial = defaults[j]
+            )
+        elif question.field_type == 'decimal':
+            fields[f'question_{question.id}'] = forms.DecimalField(
+                label=question.question_text,
+                required=question.required,
+                initial = defaults[j]
+            )
+        elif question.field_type == 'url':
+            fields[f'question_{question.id}'] = forms.URLField(
+                label=question.question_text,
+                required=question.required,
+                initial = defaults[j]
+            )
+        elif question.field_type == 'tel':
+            fields[f'question_{question.id}'] = forms.CharField(
+                label=question.question_text,
+                widget=forms.TextInput(attrs={'type': 'tel'}),
+                required=question.required,
+                initial = defaults[j]
+            )
+        else:  # default to text
+            fields[f'question_{question.id}'] = forms.CharField(
+                label=question.question_text,
+                required=question.required,
+                initial = defaults[j]
+            )
+
+        j += 1
+
+    return type('AnswerForm', (forms.BaseForm,), {'base_fields': fields})(data)
