@@ -130,6 +130,7 @@ def end_year_report_detail(request, pk):
     return render(request, 'application_and_reports_detail/endyear_report_detail.html', {'form':form, 'commentform':commentform, 'comments':comments})
 
 def dynamic_form(request, form_id):
+    
     form_obj = get_object_or_404(Form, id=form_id)
     questions = Question.objects.filter(form=form_obj)
 

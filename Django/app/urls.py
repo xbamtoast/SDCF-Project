@@ -15,7 +15,7 @@ urlpatterns = [
     path("recipient-agreement/", views.recipient_agreement, name="recipient_agreement"),
     path("mid-year-report/", views.mid_year_report, name="mid_year_report"),
     path("end-year-report/", views.end_year_report, name="end_year_report"),
-    path("dynamic-form/", views.dynamic_form, name="dynamic_form"),
+    path("dynamic-form/<int:form_id>", views.dynamic_form, name="dynamic_form"),
 
 
     # This will send them to the individual view for each already submitted form.
