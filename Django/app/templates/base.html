@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 
 {% load static %}
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -62,9 +61,8 @@
                         <a class="nav-link" href="applications.html" tabindex="-1">Files</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-
                 {% if request.resolver_match.url_name not in "user_login" %}
+                <p style = "padding-right:25px;padding-top:14px;">Logged in as: <span style = "font-weight:bold;color:blue;">{{request.user}}</span></p>
                 <form method = "POST">
                     <button class="btn btn-outline-success" type="submit"
                         style="background-color:maroon;color:white;font-weight:bold;border:solid 2px black;"><a href = "{% url 'accounts:user_login' %}" 

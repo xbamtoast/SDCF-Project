@@ -1,0 +1,11 @@
+.table-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    margin: 130px auto 40px auto;
+}
+
+#applications_table th, td
+{
+    text-align:center;
+}

@@ -130,7 +130,7 @@ def end_year_report_detail(request, pk):
     return render(request, 'application_and_reports_detail/endyear_report_detail.html', {'form':form, 'commentform':commentform, 'comments':comments})
 
 def dynamic_form(request, form_id):
-    
+
     form_obj = get_object_or_404(Form, id=form_id)
     questions = Question.objects.filter(form=form_obj)
 
@@ -186,3 +186,18 @@ def dynamic_form_detail(request, form_id, submission_id):
     context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form}
 
     return render(request, 'application_and_reports_detail/dynamic_form_detail.html', context = context)
+
+def application_table_admin(request):
+
+    sublist = Submission.objects.all()
+    school_districts = SchoolDistrict.objects.all()
+
+    districts = {}
+    for i in school_districts:
+        districts[i.id] = i.name
+    
+    print(districts)
+
+    context = {'sublist':sublist, 'school_districts':districts}
+
+    return render(request, 'application_listing_pages/admin_listings.html', context = context)
