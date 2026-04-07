@@ -22,7 +22,7 @@ urlpatterns = [
     path("hope-grant-application/<int:pk>/", views.application_detail, name="application_detail"),
     path("mid-year-report/<int:pk>/", views.mid_year_report_detail, name="mid_year_report_detail"),
     path("end-year-report/<int:pk>/", views.end_year_report_detail, name="end_year_report_detail"),
-    path("dynamic-form/<int:form_id>/<int:submission_id>", views.dynamic_form_detail, name="dynamic_form_detail"),
+    path("dynamic-form/<int:form_id>/<int:submission_id>/", views.dynamic_form_detail, name="dynamic_form_detail"),
 
     # Applications Tables
 

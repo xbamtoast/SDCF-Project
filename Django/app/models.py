@@ -156,7 +156,6 @@ class Form(models.Model):
     def __str__(self):
         return self.name
 
-
 class Question(models.Model):
     FIELD_TYPES = [
         ('text', 'Short Text'),
@@ -192,7 +191,7 @@ class Submission(models.Model):
 
     def __str__(self):
         return f"{self.form.name} - {self.school_district} - {self.submitted_at}"
-
+    
 
 class Answer(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name='answers')
@@ -201,3 +200,11 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"{self.question.question_text[:30]} - {self.answer_text[:30]}"
+
+class Comment(models.Model):
+
+    name = models.CharField(max_length = 100)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    form = models.ForeignKey(Form, on_delete = models.CASCADE)
+    submission = models.ForeignKey(Submission, on_delete = models.CASCADE)

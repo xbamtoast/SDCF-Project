@@ -5,8 +5,8 @@ from .models import HopeGrantApplication, MidYearReport, EndYearReport, Applicat
 from django.contrib import messages
 
 from .models import HopeGrantApplication, MidYearReport, EndYearReport, ApplicationComment, MidYearComment, EndYearComment
-from .models import Form, Question, Submission, Answer, SchoolDistrict
-from .forms import SubmissionForm, build_answer_form
+from .models import Form, Question, Submission, Answer, SchoolDistrict, Comment
+from .forms import SubmissionForm, CommentForm, build_answer_form
 
 # Home/landing page view
 
@@ -150,7 +150,7 @@ def dynamic_form(request, form_id):
                     question=question,
                     answer_text=answer_form.cleaned_data.get(f'question_{question.id}', '')
                 )
-            return redirect('home')
+            return redirect('app:home')
     else:
         submission_form = SubmissionForm()
         answer_form = build_answer_form(questions, data = None, filled_in = False, answer_texts = [])
@@ -176,6 +176,7 @@ def dynamic_form_detail(request, form_id, submission_id):
 
     questions = Question.objects.filter(form = form_obj)
     answers = Answer.objects.filter(submission_id = submission_id)
+    comments = Comment.objects.filter(form_id = form_id, submission_id = submission_id)
 
     answer_texts = []
     for i in answers:
@@ -183,21 +184,25 @@ def dynamic_form_detail(request, form_id, submission_id):
 
     answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
     
-    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form}
+    if request.method == "POST":
+        commentform = CommentForm(request.POST)
+        if commentform.is_valid():
+            instance = commentform.save(commit = False)
+            instance.form_id = form_id
+            instance.submission_id = submission_id
+            instance.save()
+            return redirect(f'/dynamic-form/{form_id}/{submission_id}/#comment-section-down')
+    else:
+        commentform = CommentForm()
+
+    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form, 'commentform':commentform, 'comments':comments}
 
     return render(request, 'application_and_reports_detail/dynamic_form_detail.html', context = context)
 
 def application_table_admin(request):
 
     sublist = Submission.objects.all()
-    school_districts = SchoolDistrict.objects.all()
 
-    districts = {}
-    for i in school_districts:
-        districts[i.id] = i.name
-    
-    print(districts)
-
-    context = {'sublist':sublist, 'school_districts':districts}
+    context = {'sublist':sublist}
 
     return render(request, 'application_listing_pages/admin_listings.html', context = context)

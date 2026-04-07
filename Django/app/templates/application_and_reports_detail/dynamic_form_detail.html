@@ -52,4 +52,27 @@
         <button type="submit">Submit</button>
     </form>
 </div>
+
+<hr>
+<section id = "comment-section-down">
+    <h1>Comments</h1>
+    {% for comment in comments.all %}
+        <div class="comment">
+            <p><strong>{{ comment.name }}</strong> says: {{ comment.message }}</p>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+    <div class = "form-container" style = "margin-left:0;margin-top:25px;">
+    <form method="POST">
+        <h2>Write Something...</h2>
+        {% csrf_token %}
+            <div>{{ commentform.name.label_tag }} {{ commentform.name }}</div>
+            <div>{{ commentform.message.label_tag }} {{ commentform.message }}</div>
+        <button type="submit" id="btn-midyear-submit">Submit Comment</button>
+    </form>
+    </div>
+</section>
+
 {% endblock %}

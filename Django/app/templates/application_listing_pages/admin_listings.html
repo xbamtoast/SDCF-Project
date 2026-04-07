@@ -17,6 +17,7 @@
                 <th onclick="sortTable(2)">District</th>
                 <th onclick="sortTable(3)">Submitted By</th>
                 <th onclick="sortTable(4)">Submission Date</th>
+                <th onclick="sortTable(5)">Download</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,7 @@
                 <td>{{item.school_district.name}}</td>
                 <td>{{item.submitted_by}}</td>
                 <td>{{item.submitted_at|date:"Y-m-d"}}</td>
+                <td><a href="{% url 'app:dynamic_form_detail' form_id=item.form_id submission_id=item.id %}" download>Download</a></td>
             </tr>
             {% endfor %}
 

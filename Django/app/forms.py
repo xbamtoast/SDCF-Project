@@ -1,7 +1,7 @@
 from django import forms
 from .models import MidYearReport, HopeGrantApplication, EndYearReport, ApplicationComment, MidYearComment, EndYearComment
 from .models import Document
-from .models import Submission, Answer, Question
+from .models import Submission, Answer, Question, Comment
 
 class HopeGrantApplicationForm(forms.ModelForm):
     class Meta:
@@ -130,6 +130,19 @@ class SubmissionForm(forms.ModelForm):
     class Meta:
         model = Submission
         fields = ['first_name', 'last_name', 'email', 'school_district', 'project_name']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['name', 'message']
+        widgets = {
+        'name': forms.Textarea(attrs={'rows': 1}),
+        'message': forms.Textarea(attrs={'rows': 5}),
+        }
+        labels = {
+            'name':'Name',
+            'message':'Comment'
+        }
         
 def build_answer_form(questions, data = None, filled_in = False, answer_texts = []):
 
