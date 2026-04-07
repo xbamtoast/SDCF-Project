@@ -7,6 +7,8 @@ from django.contrib import messages
 from .models import HopeGrantApplication, MidYearReport, EndYearReport, ApplicationComment, MidYearComment, EndYearComment
 from .models import Form, Question, Submission, Answer, SchoolDistrict, Comment
 from .forms import SubmissionForm, CommentForm, build_answer_form
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 # Home/landing page view
 
@@ -203,6 +205,20 @@ def application_table_admin(request):
 
     sublist = Submission.objects.all()
 
-    context = {'sublist':sublist}
+    query = request.GET.get('search')
+    if query:
+        sublist = sublist.filter(
+            Q(submitted_by__icontains=query) |
+            Q(form__name__icontains=query) |
+            Q(school_district__name__icontains=query) |
+            Q(submitted_at__icontains=query)
+        )
+
+    paginator = Paginator(sublist, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
+    context = {'sublist':sublist, 'page_obj':page_obj}
 
     return render(request, 'application_listing_pages/admin_listings.html', context = context)
