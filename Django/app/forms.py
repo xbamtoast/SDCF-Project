@@ -1,8 +1,7 @@
 from django import forms
-from .models import MidYearReport, HopeGrantApplication, EndYearReport, ApplicationComment, MidYearComment, EndYearComment
 from .models import Document
 from .models import Submission, Answer, Question, Comment
-
+"""
 class HopeGrantApplicationForm(forms.ModelForm):
     class Meta:
         model = HopeGrantApplication
@@ -81,45 +80,7 @@ class EndYearReportForm(forms.ModelForm):
             'future_funding': '11. If Silver Dollar City Foundation provides Hope Grant opportunities next year, do you anticipate requesting funding to continue or expand on this project, and why?',
             'video_link': '12. Video Upload Link - Please submit a video approximately 90 seconds in length that Silver Dollar City Foundation may share about how your district was impacted by your Hope Grant. Your video may include comments from administrators, counselors, teachers, or other staff. Please do not share personally identifiable information unless the family has consented. These videos may be shared publicly.',
         }
-
-class ApplicationCommentForm(forms.ModelForm):
-    class Meta:
-        model = ApplicationComment
-        fields = ['name', 'message']
-        widgets = {
-        'name': forms.Textarea(attrs={'rows': 1}),
-        'message': forms.Textarea(attrs={'rows': 5}),
-        }
-        labels = {
-            'name':'Name',
-            'message':'Comment'
-        }
-
-class MidYearCommentForm(forms.ModelForm):
-    class Meta:
-        model = MidYearComment
-        fields = ['name', 'message']
-        widgets = {
-        'name': forms.Textarea(attrs={'rows': 1}),
-        'message': forms.Textarea(attrs={'rows': 5}),
-        }
-        labels = {
-            'name':'Name',
-            'message':'Comment'
-        }
-
-class EndYearCommentForm(forms.ModelForm):
-    class Meta:
-        model = EndYearComment
-        fields = ['name', 'message']
-        widgets = {
-        'name': forms.Textarea(attrs={'rows': 1}),
-        'message': forms.Textarea(attrs={'rows': 5}),
-        }
-        labels = {
-            'name':'Name',
-            'message':'Comment'
-        }
+"""
 
 class DocumentFormTest(forms.ModelForm):
     class Meta:
