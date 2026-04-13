@@ -125,12 +125,13 @@ TIME_ZONE = 'America/Chicago'
 USE_I18N = True
 USE_TZ = True
 
-
+# Settings for static stuff.
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-#STATICFILES_DIRS = ['static_global']
+
+# Media upload settings.
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
