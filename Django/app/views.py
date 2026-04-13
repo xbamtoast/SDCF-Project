@@ -10,6 +10,9 @@ from django.db.models import Q
 
 # Home/landing page view
 
+def directory(request):
+    return render(request, 'miscellaneous/directory.html')
+
 def home(request):
     return render(request, 'landing.html')
 
@@ -118,7 +121,7 @@ def application_table_admin(request):
             Q(submitted_at__icontains=query)
         )
 
-    paginator = Paginator(sublist, 1)
+    paginator = Paginator(sublist, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

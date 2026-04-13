@@ -1,0 +1,24 @@
+.comment
+{
+    background-image:linear-gradient(to right, #F0F0F0, white);    
+    border:solid black 1px;
+    margin:15px;
+    border-radius:10px;
+}
+
+.comment .comment_header
+{
+    font-size:20px;
+    padding-left:20px;
+}
+
+.comment .comment_text
+{
+    padding-left:40px;
+}
+
+.comment .timestamp
+{
+    text-align:right;
+    padding-right:8px;
+}

@@ -33,11 +33,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            My Account
+                            Dropdown
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Message Center</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:directory' %}">Link Directory</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -64,6 +64,7 @@
                 {% if request.resolver_match.url_name not in "user_login" %}
                 <p style = "padding-right:25px;padding-top:14px;">Logged in as: <span style = "font-weight:bold;color:blue;">{{request.user}}</span></p>
                 <form method = "POST">
+                {% csrf_token %}
                     <button class="btn btn-outline-success" type="submit"
                         style="background-color:maroon;color:white;font-weight:bold;border:solid 2px black;"><a href = "{% url 'accounts:user_login' %}" 
                         style = "color:white;text-decoration:none;">Log Out</a></button>

@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tz %}
 
 {% block title %}{{ form_obj.name }}{% endblock %}
 
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/comments.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="form-container">
     <a href="/" class="back-btn">← Back to Home</a>
-    <h1 style = "font-weight:bold;text-align:center;padding-bottom:10px;">{{ form_obj.name }}</h1>
+    <h1>{{ form_obj.name }}</h1>
+
+    <h2>Information Section</h2>
 
     {% if form_obj.due_date %}
-    <p>Due <strong><span style = "background-color:yellow">{{ form_obj.due_date }}</span></strong></p>
+    <p>Please submit by: <span id = "due-date">{{ form_obj.due_date }}</span></p>
     {% endif %}
 
     {% if form_obj.intro_text %}
@@ -24,7 +28,7 @@
 
         {% csrf_token %}
 
-        <h3>Contact Information</h3>
+        <h2>Contact Information</h2>
         <div>{{ submission_form.first_name.label_tag }} {{ submission_form.first_name }}</div>
         <div>{{ submission_form.last_name.label_tag }} {{ submission_form.last_name }}</div>
         <div>{{ submission_form.email.label_tag }} {{ submission_form.email }}</div>
@@ -56,9 +60,17 @@
 <hr>
 <section id = "comment-section-down">
     <h1>Comments</h1>
+    <h3>Write something</h3>
+    {% localtime on %}
     {% for comment in comments.all %}
         <div class="comment">
-            <p><strong>{{ comment.name }}</strong> says: {{ comment.message }}</p>
+            <p class = "comment_header"><strong>{{ comment.name }}</strong> wrote:</p>
+            <p class = "comment_text">{{ comment.message }}</p>
+            <p class = "timestamp">
+                {% localtime on %} 
+                    {{comment.created_at}} 
+                    {% endlocaltime %}
+                </p>
         </div>
     {% empty %}
         <p>No comments yet.</p>
@@ -74,5 +86,5 @@
     </form>
     </div>
 </section>
-
+{% endlocaltime %}
 {% endblock %}

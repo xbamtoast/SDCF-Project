@@ -6,6 +6,7 @@ app_name = 'app'
 urlpatterns = [
 
     path('', views.home, name='home'),
+    path('directory', views.directory, name = 'directory'),
     path('recipient_agreement/', views.recipient_agreement, name='recipient_agreement'),
     path('w9_upload/', views.w9_upload, name='w9_upload'),
 

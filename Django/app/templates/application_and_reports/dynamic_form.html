@@ -10,10 +10,12 @@
 {% block content %}
 <div class="form-container">
     <a href="/" class="back-btn">← Back to Home</a>
-    <h1 style = "font-weight:bold;text-align:center;padding-bottom:10px;">{{ form_obj.name }}</h1>
+    <h1>{{ form_obj.name }}</h1>
+
+    <h2>Information Section</h2>
 
     {% if form_obj.due_date %}
-    <p>Due <strong><span style = "background-color:yellow">{{ form_obj.due_date }}</span></strong></p>
+    <p>Please submit by: <span id = "due-date">{{ form_obj.due_date }}</span></p>
     {% endif %}
 
     {% if form_obj.intro_text %}
@@ -23,7 +25,7 @@
     <form method="POST">
         {% csrf_token %}
 
-        <h3>Contact Information</h3>
+        <h2>Contact Information</h2>
         <div>{{ submission_form.first_name.label_tag }} {{ submission_form.first_name }}</div>
         <div>{{ submission_form.last_name.label_tag }} {{ submission_form.last_name }}</div>
         <div>{{ submission_form.email.label_tag }} {{ submission_form.email }}</div>
