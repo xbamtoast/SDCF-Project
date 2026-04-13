@@ -53,22 +53,24 @@ function sortTable(n) {
     table.dataset.sortOrder = isAscending ? "desc" : "asc";
 }
 
-// Color application statuses on the applications page.
-
-function colorApplicationStatus()
+function correctSearchText()
 {
-
-    let statuses = document.getElementsByClassName("application_status");
-    let color_dict = {"Approved":"green", "Review":"red"}
-    for (i = 0; i< statuses.length; i++)
-    {
-       let new_color = color_dict[statuses[i].innerText]
-       console.log(new_color)
-       console.log(statuses[i].innerText)
-       statuses[i].style.color = new_color;
-       statuses[i].style.fontWeight = "bold";
-    }
-
+  let table_search = document.getElementById('search_filter')
+  if (table_search.placeholder == "None")
+  {
+    table_search.placeholder = "Search some text..."
+  }
 }
 
-colorApplicationStatus();
+function clearSearchText()
+{
+  let table_search = document.getElementById('search_filter')
+  if (table_search.value.length == 0)
+  {
+    table_search.value = "";
+    table_search.placeholder = "Search some text...";
+  }
+}
+
+correctSearchText();
+document.getElementById('search_filter').addEventListener("blur", clearSearchText)

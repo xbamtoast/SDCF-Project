@@ -1,8 +1,41 @@
+html
+{
+    scroll-behavior:auto !important;
+}
+
+#comment_hr
+{
+  border: 0;
+  height: 3px;
+  background-color: black;
+  opacity:1;
+  margin-top:45px;
+  margin-bottom:25px;
+}
+
+
+#comment-section-down h1
+{
+    background-image:linear-gradient(to right, #191970, blue);
+    color:white;
+    font-weight:bold;
+    width:fit-content;
+    padding-left:35px;
+    padding-right:35px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+#comment-section-down h5
+{
+    padding-left:25px;
+}
+
 .comment
 {
     background-image:linear-gradient(to right, #F0F0F0, white);    
     border:solid black 1px;
-    margin:15px;
+    margin:12px;
     border-radius:10px;
 }
 
@@ -10,6 +43,7 @@
 {
     font-size:20px;
     padding-left:20px;
+    color:maroon;
 }
 
 .comment .comment_text
@@ -21,4 +55,6 @@
 {
     text-align:right;
     padding-right:8px;
+    font-weight:bold;
+    color:blue;
 }

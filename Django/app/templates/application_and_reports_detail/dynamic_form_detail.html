@@ -57,12 +57,14 @@
     </form>
 </div>
 
-<hr>
-<section id = "comment-section-down">
-    <h1>Comments</h1>
-    <h3>Write something</h3>
+<section id = "comment-section-down" style = "margin-top:100px;">
+<hr id = "comment_hr" style = "margin-bottom:60px;">
+
+    <h1>Comments and Notes</h1>
+    <h5>Need to leave a note?</h5>
+    <h5>View and write comments here.</h5>
     {% localtime on %}
-    {% for comment in comments.all %}
+    {% for comment in comment_obj %}
         <div class="comment">
             <p class = "comment_header"><strong>{{ comment.name }}</strong> wrote:</p>
             <p class = "comment_text">{{ comment.message }}</p>
@@ -76,7 +78,21 @@
         <p>No comments yet.</p>
     {% endfor %}
 
-    <div class = "form-container" style = "margin-left:0;margin-top:25px;">
+    <div class="pagination">
+        <span class="step-links">
+            {% if comment_obj.has_previous %}
+            <a href="?page=1#comment-section-down">&laquo; first</a>
+            <a href="?page={{ comment_obj.previous_page_number }}#comment-section-down">previous</a>
+            {% endif %}
+            <span class="current">Page {{ comment_obj.number }} of {{ comment_obj.paginator.num_pages }}.</span>
+            {% if comment_obj.has_next %}
+            <a href="?page={{ comment_obj.next_page_number }}#comment-section-down">next</a>
+            <a href="?page={{ comment_obj.paginator.num_pages }}#comment-section-down">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+<div class = "form-container" style = "margin-left:0;margin-top:25px;">
     <form method="POST">
         <h2>Write Something...</h2>
         {% csrf_token %}

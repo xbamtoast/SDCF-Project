@@ -8,6 +8,9 @@ from .forms import SubmissionForm, CommentForm, build_answer_form
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+# from weasyprint import HTML
+
+
 # Home/landing page view
 
 def directory(request):
@@ -85,7 +88,11 @@ def dynamic_form_detail(request, form_id, submission_id):
 
     questions = Question.objects.filter(form = form_obj)
     answers = Answer.objects.filter(submission_id = submission_id)
+
     comments = Comment.objects.filter(form_id = form_id, submission_id = submission_id)
+    paginator = Paginator(comments, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     answer_texts = []
     for i in answers:
@@ -100,11 +107,12 @@ def dynamic_form_detail(request, form_id, submission_id):
             instance.form_id = form_id
             instance.submission_id = submission_id
             instance.save()
-            return redirect(f'/dynamic-form/{form_id}/{submission_id}/#comment-section-down')
+            return redirect(f'/dynamic-form/{form_id}/{submission_id}/?page={page_obj.paginator.num_pages}#comment-section-down')
     else:
         commentform = CommentForm()
 
-    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form, 'commentform':commentform, 'comments':comments}
+    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form, 'commentform':commentform, 'comments':comments,
+               'comment_obj':page_obj}
 
     return render(request, 'application_and_reports_detail/dynamic_form_detail.html', context = context)
 
@@ -120,12 +128,19 @@ def application_table_admin(request):
             Q(school_district__name__icontains=query) |
             Q(submitted_at__icontains=query)
         )
+    
+    date_query_before = request.GET.get('search_date_before')
+    if date_query_before:
+        sublist = sublist.filter(submitted_at__lte=date_query_before)
+    
+    date_query_after = request.GET.get('search_date_after')
+    if date_query_after:
+        sublist = sublist.filter(submitted_at__gte=date_query_after)
 
     paginator = Paginator(sublist, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-
-    context = {'sublist':sublist, 'page_obj':page_obj}
+    context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
 
     return render(request, 'application_listing_pages/admin_listings.html', context = context)

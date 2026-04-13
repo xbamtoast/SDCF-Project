@@ -9,13 +9,48 @@
 {% block content %}
 <div class="table-container">
 
-    <form action="{% url 'app:application_table_admin' %}" method="get">
-        <input type="text" name="search" placeholder="Search entries..." value="{{ query|default:'' }}">
-        <button type="submit">Search</button>
-    </form>
+    <h1>Submitted Applications</h1>
+    <h6>Welcome! Here, you can view submitted applications.</h6>
+    <hr>
+    <div id = "instructions" style = "padding-left:10px;">
+    <h4>Instructions</h4>
+    <ul>
+        <li><strong>Filter</strong> the table by entering row text or a before/after submission date.</li>
+        <li><strong>Sort</strong> the table by clicking a yellow table header.</li>
+        <li><strong>Download</strong> a submission to PDF by clicking the Download link.</li>
+    </ul>
+    </div>
+
+    <hr>
+    <div class="filters">
+
+        <form action="{% url 'app:application_table_admin' %}" method="get">
+
+            <div class = "form-line">
+                <label for="search">Contains Text:</label>
+                <input type="text" name="search" id = "search_filter" placeholder= "{{query}}" value="{{ query|default:'' }}">
+            </div>
+
+            <div class = "form-line">
+                <label for="search_date_after">Submitted After:</label>
+                <input type="date"  placeholder = "{{search_date_after}}" name="search_date_after" id="search_date_after"
+                    value="{{ date_query_after|default:''}}">
+            </div>
+
+            <div class = "form-line">
+                <label for="search_date_before">Submitted Before:</label>
+                <input type="date" placeholder = "{{search_date_before}}" name="search_date_before" id="search_date_before"
+                    value="{{ date_query_before|default:''}}">
+            </div>
+
+
+            <button id="table-search-button" type="submit">Filter Table</button>
+
+        </form>
+    </div>
 
     <table class="table table-striped table-bordered" id="applications_table">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th onclick="sortTable(0)">Submission ID</th>
                 <th onclick="sortTable(1)">Submission Type</th>
@@ -35,8 +70,7 @@
                 <td>{{item.school_district.name}}</td>
                 <td>{{item.submitted_by}}</td>
                 <td>{{item.submitted_at|date:"Y-m-d"}}</td>
-                <td><a href="{% url 'app:dynamic_form_detail' form_id=item.form_id submission_id=item.id %}"
-                        download>Download</a></td>
+                <td><a href="{% url 'app:dynamic_form_detail' form_id=item.form_id submission_id=item.id %}" download>Download</a></td>
             </tr>
             {% endfor %}
 

@@ -1,8 +1,45 @@
+.form-line
+{
+    margin:10px;
+}
+
+.form-line label {
+    display: inline-block;
+    font-weight:bold;
+    width: 150px;
+}
+
+.form-line input
+{
+    width:15%;
+}
+
 .table-container {
     background: #ffffff;
     padding: 40px;
     border-radius: 8px;
     margin: 130px auto 40px auto;
+}
+
+.table-container #table-search-button
+{
+    background-image:linear-gradient(to right, #191970, blue);
+    font-weight:bold;
+    padding-left:5px;
+    padding-right:5px;
+    border-radius:8px;
+    color:white;
+    margin:15px;
+}
+
+.table-container h1
+{
+    text-align:center;
+}
+
+#applications_table th
+{
+    color:yellow;
 }
 
 #applications_table th, td
