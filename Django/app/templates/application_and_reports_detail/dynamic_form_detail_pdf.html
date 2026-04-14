@@ -1,0 +1,67 @@
+{% block title %}
+{{ form_obj.name }}
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>{{ form_obj.name }}</h1>
+
+    <h2>Information Section</h2>
+
+    {% if form_obj.due_date %}
+    <p>Please submit by: <span id = "due-date">{{ form_obj.due_date }}</span></p>
+    {% endif %}
+
+    {% if form_obj.intro_text %}
+    {{ form_obj.intro_text|linebreaks }}
+    {% endif %}
+
+        <h2>Contact Information</h2>
+
+        <div>
+            <p><b>{{ submission_form.first_name.label_tag }}</b></p> 
+            <p><span style = "background-color:yellow;">{{ submission_form.first_name.value }}</span></p>
+        </div>
+
+        <div>
+            <p><b>{{ submission_form.last_name.label_tag }}</b></p> 
+            <p><span style = "background-color:yellow;">{{ submission_form.last_name.value }}</span></p>
+        </div>
+
+        <div>
+            <p><b>{{ submission_form.email.label_tag }}</b></p> 
+            <p><span style = "background-color:yellow;">{{ submission_form.email.value }}</span></p>
+        </div>
+
+        <div>
+            <p><b>{{ submission_form.school_district.label_tag }}</b></p> 
+            <p><span style = "background-color:yellow;">{{ submission_form.school_district.value }}</span></p>
+        </div>
+
+        <div>
+            <p><b>{{ submission_form.project_name.label_tag }}</b></p> 
+            <p><span style = "background-color:yellow;">{{ submission_form.project_name.value }}</span></p>
+        </div>
+        
+        <hr>
+
+        <h2>Questions</h2>
+        {% for a in answer_form %}
+        <div>
+            <p><b>{{ a.label_tag }}</b></p>
+            <p><span style = "background-color:yellow;">{{ a.value }}</span></p>
+        </div>
+        {% endfor %}
+
+        {% if form_obj.footer_text %}
+        {{ form_obj.footer_text|linebreaks }}
+        {% endif %}
+
+        {% if form_obj.footer_link %}
+        <a href="{{ form_obj.footer_link }}" target="_blank">
+            {{ form_obj.footer_link_label|default:"Click here" }}
+        </a>
+        {% endif %}
+
+</div>
+{% endblock %}

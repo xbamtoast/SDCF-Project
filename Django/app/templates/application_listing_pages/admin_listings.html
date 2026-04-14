@@ -70,7 +70,7 @@
                 <td>{{item.school_district.name}}</td>
                 <td>{{item.submitted_by}}</td>
                 <td>{{item.submitted_at|date:"Y-m-d"}}</td>
-                <td><a href="{% url 'app:dynamic_form_detail' form_id=item.form_id submission_id=item.id %}" download>Download</a></td>
+                <td><a href="{% url 'app:create_pdf' form_id=item.form_id submission_id=item.id %}" download>Download</a></td>
             </tr>
             {% endfor %}
 

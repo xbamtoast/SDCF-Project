@@ -8,8 +8,9 @@ from .forms import SubmissionForm, CommentForm, build_answer_form
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-# from weasyprint import HTML
-
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from io import BytesIO
 
 # Home/landing page view
 
@@ -120,6 +121,9 @@ def application_table_admin(request):
 
     sublist = Submission.objects.all()
 
+    if request.user.is_staff == False and request.user.is_superuser == False:
+        sublist = Submission.objects.filter(submitted_by = request.user)
+
     query = request.GET.get('search')
     if query:
         sublist = sublist.filter(
@@ -144,3 +148,45 @@ def application_table_admin(request):
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
 
     return render(request, 'application_listing_pages/admin_listings.html', context = context)
+
+def create_pdf(request, form_id, submission_id):
+
+    form_obj = get_object_or_404(Form, id = form_id)
+
+    # Read in the Submission object.
+    
+    submission = get_object_or_404(Submission, id = submission_id)
+    submission_form = SubmissionForm(instance = submission)
+
+    # Read in the Answer objects.
+
+    questions = Question.objects.filter(form = form_obj)
+    answers = Answer.objects.filter(submission_id = submission_id)
+
+    answer_texts = []
+    for i in answers:
+        answer_texts.append(i.answer_text)
+
+    print(answer_texts)
+
+    answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
+    
+    for i in answer_form:
+        print(i)
+
+    context = {'form_obj':form_obj, 
+               'submission':submission, 
+               'submission_form':submission_form, 
+               'answer_form':answer_form, 
+               'answer_texts':answer_texts}
+
+    template_path = 'application_and_reports_detail/dynamic_form_detail_pdf.html'
+    response = HttpResponse(content_type = 'application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render(context)
+    
+    pisa_status = pisa.CreatePDF(html, dest = response)
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

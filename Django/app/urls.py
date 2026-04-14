@@ -18,10 +18,10 @@ urlpatterns = [
     # This will send them to the individual view for each already submitted form.
 
     path("dynamic-form/<int:form_id>/<int:submission_id>/", views.dynamic_form_detail, name="dynamic_form_detail"),
+    path("dynamic-pdf/<int:form_id>/<int:submission_id>/", views.create_pdf, name="create_pdf"),
 
     # Applications Tables
 
     path("application_table_admin", views.application_table_admin, name="application_table_admin"),
-
 
 ]
