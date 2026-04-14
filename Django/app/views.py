@@ -85,6 +85,10 @@ def dynamic_form_detail(request, form_id, submission_id):
     submission = get_object_or_404(Submission, id = submission_id)
     submission_form = SubmissionForm(instance = submission)
 
+    if (submission.submitted_by != request.user.username) and ((request.user.is_staff == False) and (request.user.is_superuser == False)):
+        return render(request, 'miscellaneous/permission_denied.html', context = {})
+
+
     # Read in the Answer objects.
 
     questions = Question.objects.filter(form = form_obj)
@@ -122,7 +126,7 @@ def application_table_admin(request):
     sublist = Submission.objects.all()
 
     if request.user.is_staff == False and request.user.is_superuser == False:
-        sublist = Submission.objects.filter(submitted_by = request.user)
+        sublist = Submission.objects.filter(submitted_by = request.user.username)
 
     query = request.GET.get('search')
     if query:

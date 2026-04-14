@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Upload Test{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class = "form-container">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1>Oooh, Sorry</h1>
+    <p>You do not currently have permission to view this resource.</p>
+    <p>If you believe this is an error, contact the site administrator.</p>
+    <button type="submit"><a href = "{% url 'app:home' %}" style = "text-decoration:none;color:white;">Return to Home</a></button>
+</form>
+</div>
+{% endblock %}

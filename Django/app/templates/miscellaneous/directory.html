@@ -9,16 +9,16 @@
 {% block content %}
 
 <div class="landing-container">
-    <h1>Welcome to the Silver Dollar City Foundation Portal</h1>
-    <p>Please select an action below:</p>
     <div class="button-group">
-        <h1>Landing Page</h1>
+        <h1>Link Directory</h1>
         <a href="{% url 'app:recipient_agreement' %}">Recipient Agreement</a>
         <a href="{% url 'app:w9_upload' %}">W9 Upload</a>
         <a href="{% url 'app:dynamic_form' form_id=1 %}">Hope Grant Application New</a>
         <a href="{% url 'app:dynamic_form' form_id=2 %}">Mid-Year Application New</a>
         <a href="{% url 'app:dynamic_form_detail' form_id=1 submission_id=1 %}">Submission 1-1</a>
         <a href="{% url 'app:application_table_admin' %}">Admin Application Table</a>
+        <a href="{% url 'app:application_table_admin' %}">User Application Table</a>
+        <a href="{% url 'accounts:password_change_internal' %}">Change Password Internal</a>
     </div>
 </div>
 

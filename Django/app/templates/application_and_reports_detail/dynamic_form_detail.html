@@ -58,7 +58,6 @@
 
 <section id = "comment-section-down" style = "margin-top:50px;">
 <hr id = "comment_hr" style = "margin-bottom:25px;">
-
     <h1>Comments and Notes</h1>
     <h5>Need to leave a note?</h5>
     <h5>View and write comments here.</h5>
@@ -74,9 +73,9 @@
                 </p>
         </div>
     {% empty %}
-        <p>No comments yet.</p>
+        <p style = "padding-top:20px;">No comments yet.</p>
     {% endfor %}
-
+    
     <div class="pagination">
         <span class="step-links">
             {% if comment_obj.has_previous %}
