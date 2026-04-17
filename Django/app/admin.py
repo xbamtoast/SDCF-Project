@@ -3,7 +3,7 @@ from .models import SchoolDistrict, Form, Question, Submission, Answer
 
 # admin.site.register(SchoolDistrict)
 # admin.site.register(Form)
-# admin.site.register(Question)
+admin.site.register(Question)
 
 from django.contrib import admin
 from .models import SchoolDistrict, Form, Question, Submission, Answer

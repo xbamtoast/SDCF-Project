@@ -24,7 +24,7 @@
     {{ form_obj.intro_text|linebreaks }}
     {% endif %}
 
-    <form action = "{% url 'app:dynamic_form_detail' form_obj.id submission.id %}" method="GET">
+    <form action = "{% url 'app:dynamic_form_detail' form_obj.id submission.id %}" method="POST">
 
         {% csrf_token %}
 
@@ -51,6 +51,18 @@
         <a href="{{ form_obj.footer_link }}" target="_blank">
             {{ form_obj.footer_link_label|default:"Click here" }}
         </a>
+        {% endif %}
+
+        {% if form_obj.id == 1  and request.user.is_staff %}
+        <button type="submit" style = "background-color:green;">
+            <a href = "{% url 'app:recipient_form' reference_submission=submission.id %}" 
+            style = "color:white;text-decoration:none;">Create Approval</a></button>
+        {% endif %}
+
+        {% if form_obj.id == 2 %}
+        <button type="submit" style = "background-color:green;">
+            <a href = "{% url 'app:dynamic_form_detail' form_id=2 submission_id=submission.id %}" 
+            style = "color:white;text-decoration:none;">Save</a></button>
         {% endif %}
 
     </form>

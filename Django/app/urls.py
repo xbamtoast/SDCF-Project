@@ -14,6 +14,7 @@ urlpatterns = [
 
     path("recipient-agreement/", views.recipient_agreement, name="recipient_agreement"),
     path("dynamic-form/<int:form_id>", views.dynamic_form, name="dynamic_form"),
+    path("recipient-form-create/<int:reference_submission>/", views.recipient_form, name="recipient_form"),
 
     # This will send them to the individual view for each already submitted form.
 
@@ -22,6 +23,6 @@ urlpatterns = [
 
     # Applications Tables
 
-    path("application_table_admin", views.application_table_admin, name="application_table_admin"),
+    path("submissions_table", views.submissions_table, name="submissions_table"),
 
 ]

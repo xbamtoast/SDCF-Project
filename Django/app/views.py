@@ -11,6 +11,7 @@ from django.db.models import Q
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from io import BytesIO
+from datetime import datetime
 
 # Home/landing page view
 
@@ -88,7 +89,6 @@ def dynamic_form_detail(request, form_id, submission_id):
     if (submission.submitted_by != request.user.username) and ((request.user.is_staff == False) and (request.user.is_superuser == False)):
         return render(request, 'miscellaneous/permission_denied.html', context = {})
 
-
     # Read in the Answer objects.
 
     questions = Question.objects.filter(form = form_obj)
@@ -121,7 +121,9 @@ def dynamic_form_detail(request, form_id, submission_id):
 
     return render(request, 'application_and_reports_detail/dynamic_form_detail.html', context = context)
 
-def application_table_admin(request):
+def submissions_table(request):
+
+    # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS!
 
     sublist = Submission.objects.all()
 
@@ -151,7 +153,7 @@ def application_table_admin(request):
 
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
 
-    return render(request, 'application_listing_pages/admin_listings.html', context = context)
+    return render(request, 'application_listing_pages/submissions_table.html', context = context)
 
 def create_pdf(request, form_id, submission_id):
 
@@ -161,6 +163,9 @@ def create_pdf(request, form_id, submission_id):
     
     submission = get_object_or_404(Submission, id = submission_id)
     submission_form = SubmissionForm(instance = submission)
+
+    district_id = submission_form['school_district'].value()
+    district_name = SchoolDistrict.objects.get(pk=district_id)
 
     # Read in the Answer objects.
 
@@ -174,15 +179,13 @@ def create_pdf(request, form_id, submission_id):
     print(answer_texts)
 
     answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
-    
-    for i in answer_form:
-        print(i)
 
     context = {'form_obj':form_obj, 
                'submission':submission, 
                'submission_form':submission_form, 
                'answer_form':answer_form, 
-               'answer_texts':answer_texts}
+               'answer_texts':answer_texts,
+               'district_name':district_name}
 
     template_path = 'application_and_reports_detail/dynamic_form_detail_pdf.html'
     response = HttpResponse(content_type = 'application/pdf')
@@ -194,3 +197,74 @@ def create_pdf(request, form_id, submission_id):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def recipient_form(request, reference_submission):
+
+    form_obj = get_object_or_404(Form, id=2)
+    questions = Question.objects.filter(form=form_obj)
+    reference_submission = get_object_or_404(Submission, id = reference_submission)
+
+    today = datetime.today()
+    reference_first = reference_submission.first_name
+    reference_last = reference_submission.last_name
+    reference_project_title = reference_submission.project_name
+    reference_email = reference_submission.email
+    reference_school_district = reference_submission.school_district
+    answer_texts = [today, reference_first + ' ' + reference_last, reference_project_title, reference_email, reference_school_district, '', '']
+
+    data = {'first_name':reference_first,
+                'last_name':reference_last,
+                'email':reference_email,
+                'project_name':reference_project_title,
+                'school_district':reference_school_district
+                }    
+    
+    submission_form = SubmissionForm(initial=data)
+
+    if request.method == 'POST':
+
+        submission_form = SubmissionForm(request.POST)
+        answer_form = build_answer_form(questions, request.POST)
+        
+        if submission_form.is_valid() and answer_form.is_valid():
+
+            submission = submission_form.save(commit=False)
+            submission.submitted_by = request.user.username
+            submission.form = form_obj
+            submission.save()
+
+            for question in questions:
+                Answer.objects.create(
+                    submission=submission,
+                    question=question,
+                    answer_text=answer_form.cleaned_data.get(f'question_{question.id}', '')
+                )
+                
+            return redirect('app:home')
+    else:
+        submission_form = SubmissionForm(initial = data)
+        answer_form = build_answer_form(questions, data = None, filled_in = True, answer_texts = answer_texts)
+
+    return render(request, 'application_and_reports/recipient_agreement_new.html', {
+        'form_obj': form_obj,
+        'submission_form': submission_form,
+        'answer_form': answer_form,
+    })
+
