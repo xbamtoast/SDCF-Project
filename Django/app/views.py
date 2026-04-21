@@ -209,7 +209,7 @@ def submissions_table(request):
     if date_query_after:
         sublist = sublist.filter(submitted_at__gte=date_query_after)
 
-    paginator = Paginator(sublist, 3)
+    paginator = Paginator(sublist, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -248,7 +248,7 @@ def agreements_table(request):
     if date_query_after:
         sublist = sublist.filter(submitted_at__gte=date_query_after)
 
-    paginator = Paginator(sublist, 3)
+    paginator = Paginator(sublist, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
@@ -363,7 +363,8 @@ def documents_table(request):
     sublist = Document.objects.all()
 
     if request.user.is_staff == False and request.user.is_superuser == False:
-        sublist = Document.objects.filter(submitted_by = request.user.username)
+        #sublist = Document.objects.filter(submitted_by = request.user.username)
+        pass
 
     query = request.GET.get('search')
     if query:
@@ -382,7 +383,7 @@ def documents_table(request):
     if date_query_after:
         sublist = sublist.filter(submitted_at__gte=date_query_after)
 
-    paginator = Paginator(sublist, 3)
+    paginator = Paginator(sublist, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
