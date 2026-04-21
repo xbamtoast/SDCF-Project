@@ -117,6 +117,7 @@
 .form-container input[type="tel"],
 .form-container input[type="number"],
 .form-container input[type="url"],
+.form-container input[type="password"],
 .form-container select,
 .form-container textarea {
     width: 100%;
@@ -174,4 +175,45 @@
     .form-container h2 {
         font-size: 18px;
     }
+}
+
+/*Styles plain hyperlinks */
+
+a.link-item {
+  display: block;
+  padding: 10px 14px;
+  margin: 8px 0;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #1a1a1a;
+  background-color: #f2f6ff;
+  transition: all 0.2s ease;
+}
+
+a.link-item:hover {
+  background-color: #dce7ff;
+  transform: translateX(4px);
+}
+
+/*For secondary buttons */
+
+.secondary-btn {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+}
+
+.secondary-btn a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: #2a4bff;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.secondary-btn a:hover {
+  color: #1a33cc;
+  text-decoration: underline;
 }

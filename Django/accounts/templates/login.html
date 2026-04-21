@@ -10,9 +10,9 @@
 {% block content %}
 
 
-<div class="landing-container">
+<div class="form-container">
 
-    <h3>Hope Grants Application</h3> Please login or create an account below</h3>
+    <h1>Hope Grants Application</h1> Please login or create an account below</h3>
     <h2>Login</h2>
 
     <form id="loginForm" method="POST" action="{% url 'accounts:user_login' %}">
@@ -27,7 +27,9 @@
 
         {% endif %}
         
+        <label>Username:</label>
         <input type="text" name="username" id="username" placeholder="Username" required><br>
+        <label>Password:</label>
         <input type="password" name="password" id="password" placeholder="Password" required><br>
         <label for="role">Login as:</label>
         <select name="role" id="role">
@@ -41,7 +43,7 @@
             Create Account</a>
         </button>
             <button type="button" id="forgotPasswordBtn" class="secondary-btn"><a href = "{% url 'accounts:password_reset' %}">
-            Reset Passwprd</a>
+            Reset Password</a>
         </button>
     </form>
 
