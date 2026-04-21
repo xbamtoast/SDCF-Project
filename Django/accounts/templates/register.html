@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
 
+{% block title %}Register{% endblock %}
+{% comment %} doing this so that the link is in a head tag {% endcomment %}
+{% block extra_styles %}
+
+
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
 <h2>Register</h2>
 
 <form method="POST">
@@ -42,6 +49,5 @@
 <p>
     Already have an account? <a href="/login">Login</a>
 </p>
-
-</body>
-</html>
+</div>
+{% endblock %}
