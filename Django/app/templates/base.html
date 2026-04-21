@@ -13,13 +13,20 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {% block extra_styles %}{% endblock %}
+    {% block extra_styles %}
+    {% endblock %}
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
 
-            <a class="navbar-brand" href="#"><img src="{% static 'img/logo.png' %}" width=267></a>
+            {% if request.resolver_match.url_name in "user_login password_reset" %}
+                <a class="navbar-brand" href="{% url 'accounts:user_login' %}"><img src="{% static 'img/logo.png' %}" width=267></a>
+            {% endif %}
+
+            {% if request.resolver_match.url_name not in "user_login password_reset" %}
+            <a class="navbar-brand" href="app:home"><img src="{% static 'img/logo.png' %}" width=267></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -33,15 +40,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
+                            Profile
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'app:directory' %}">Link Directory</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#" style="color:red;font-weight:bold;">Logout</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:directory' %}">File Uploads</a></li>
+                            <li><a class="dropdown-item" href="{% url 'accounts:password_change_internal' %}">Change Password</a></li>
                         </ul>
                     </li>
 
@@ -51,17 +54,16 @@
                             Applications
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Grant Applications</a></li>
-                            <li><a class="dropdown-item" href="#">Mid-Year Reports</a></li>
-                            <li><a class="dropdown-item" href="#">End-Year Reports</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:submissions_table' %}?search=hope grant">Grant Applications</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:submissions_table' %}?search=mid">Mid-Year Reports</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:submissions_table' %}?search=end">End-Year Reports</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="applications.html" tabindex="-1">Files</a>
+                        <a class="nav-link" href="{% url 'app:agreements_table' %}" tabindex="-1">Agreements</a>
                     </li>
                 </ul>
-                {% if request.resolver_match.url_name not in "user_login" %}
                 <p style = "padding-right:25px;padding-top:14px;">Logged in as: <span style = "font-weight:bold;color:blue;">{{request.user}}</span></p>
                 <form method = "POST">
                 {% csrf_token %}

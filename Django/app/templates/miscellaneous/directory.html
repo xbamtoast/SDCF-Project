@@ -16,8 +16,8 @@
         <a href="{% url 'app:dynamic_form' form_id=1 %}">Hope Grant Application New</a>
         <a href="{% url 'app:dynamic_form' form_id=2 %}">Mid-Year Application New</a>
         <a href="{% url 'app:dynamic_form_detail' form_id=1 submission_id=1 %}">Submission 1-1</a>
-        <a href="{% url 'app:application_table_admin' %}">Admin Application Table</a>
-        <a href="{% url 'app:application_table_admin' %}">User Application Table</a>
+        <a href="{% url 'app:submissions_table' %}">Application Table</a>
+        <a href="{% url 'app:agreements_table' %}">Agreements Table</a>
         <a href="{% url 'accounts:password_change_internal' %}">Change Password Internal</a>
     </div>
 </div>
