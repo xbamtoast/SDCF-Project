@@ -42,5 +42,12 @@ urlpatterns = [
 
     path("agreements_table", views.agreements_table, name="agreements_table"),
 
+    # Uploaded Files
+
+    path("documents_table", views.documents_table, name="documents_table"),
+
+    # Download a Document
+
+    path("document-download/<int:id>/", views.download_view, name="download_view"),
 
 ]

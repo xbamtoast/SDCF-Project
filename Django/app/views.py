@@ -3,7 +3,7 @@
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template
 
@@ -11,7 +11,7 @@ from django.template.loader import get_template
 
 from .forms import DocumentFormTest
 from .forms import SubmissionForm, CommentForm, build_answer_form
-from .models import Form, Question, Submission, Answer, SchoolDistrict, Comment
+from .models import Form, Question, Submission, Document, Answer, SchoolDistrict, Comment
 
 # Other Imports
 
@@ -215,10 +215,9 @@ def submissions_table(request):
 
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
 
-    return render(request, 'application_listing_pages/submissions_table.html', context = context)
+    return render(request, 'tables/submissions_table.html', context = context)
 
 # View for the agreements table.
-
 
 def agreements_table(request):
 
@@ -253,16 +252,7 @@ def agreements_table(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
-    return render(request, 'application_listing_pages/agreements_table.html', context = context)
-
-
-
-
-
-
-
-
-
+    return render(request, 'tables/agreements_table.html', context = context)
 
 # View to create the PDF of submissions.
 
@@ -366,3 +356,55 @@ def recipient_form(request, reference_submission):
         'answer_form': answer_form,
     })
 
+# Documents table
+
+def documents_table(request):
+
+    sublist = Document.objects.all()
+
+    if request.user.is_staff == False and request.user.is_superuser == False:
+        sublist = Document.objects.filter(submitted_by = request.user.username)
+
+    query = request.GET.get('search')
+    if query:
+        sublist = sublist.filter(
+            Q(submitted_by__icontains=query) |
+            Q(form__name__icontains=query) |
+            Q(school_district__name__icontains=query) |
+            Q(submitted_at__icontains=query)
+        )
+    
+    date_query_before = request.GET.get('search_date_before')
+    if date_query_before:
+        sublist = sublist.filter(submitted_at__lte=date_query_before)
+    
+    date_query_after = request.GET.get('search_date_after')
+    if date_query_after:
+        sublist = sublist.filter(submitted_at__gte=date_query_after)
+
+    paginator = Paginator(sublist, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
+
+    return render(request, 'tables/documents_table.html', context = context)
+
+def download_view(request, id):
+
+    doc = get_object_or_404(Document, id = id)
+
+    doc_path = 'media/' + str(doc.document)
+
+    print(doc_path)
+
+    print(doc_path[-3:])
+    
+    if doc_path[-3:] in ('txt', 'csv'):
+        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = '1', content_type = 'text/plain')
+        response['Content-Disposition'] = 'attachment; filename="download.txt"'
+    else:
+        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = '1', content_type = 'application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="download.pdf"'
+
+    return response
