@@ -21,11 +21,11 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
 
-            {% if request.resolver_match.url_name in "user_login password_reset" %}
+            {% if request.resolver_match.url_name in "user_login password_reset user_register" %}
                 <a class="navbar-brand" href="{% url 'accounts:user_login' %}"><img src="{% static 'img/logo.png' %}" width=267></a>
             {% endif %}
 
-            {% if request.resolver_match.url_name not in "user_login password_reset" %}
+            {% if request.resolver_match.url_name not in "user_login password_reset user_register" %}
             <a class="navbar-brand" href="app:home"><img src="{% static 'img/logo.png' %}" width=267></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
