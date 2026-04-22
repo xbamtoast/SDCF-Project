@@ -191,6 +191,7 @@ def submissions_table(request):
 
     if request.user.is_staff == False and request.user.is_superuser == False:
         sublist = Submission.objects.filter(submitted_by = request.user.username)
+        sublist = sublist.exclude(form_id = recipient_agreement_id)
 
     query = request.GET.get('search')
     if query:
