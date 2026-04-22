@@ -15,9 +15,9 @@ from .models import Form, Question, Submission, Document, Answer, SchoolDistrict
 
 # Other Imports
 
-from xhtml2pdf import pisa
-from io import BytesIO
 from datetime import datetime
+from pathlib import Path
+from xhtml2pdf import pisa
 
 # Home/landing page view
 
@@ -369,19 +369,17 @@ def documents_table(request):
     query = request.GET.get('search')
     if query:
         sublist = sublist.filter(
-            Q(submitted_by__icontains=query) |
-            Q(form__name__icontains=query) |
-            Q(school_district__name__icontains=query) |
-            Q(submitted_at__icontains=query)
+            Q(description__icontains=query) |
+            Q(document__icontains=query)
         )
     
     date_query_before = request.GET.get('search_date_before')
     if date_query_before:
-        sublist = sublist.filter(submitted_at__lte=date_query_before)
+        sublist = sublist.filter(uploaded_at__lte=date_query_before)
     
     date_query_after = request.GET.get('search_date_after')
     if date_query_after:
-        sublist = sublist.filter(submitted_at__gte=date_query_after)
+        sublist = sublist.filter(uploaded_at__gte=date_query_after)
 
     paginator = Paginator(sublist, 8)
     page_number = request.GET.get('page')
@@ -397,15 +395,17 @@ def download_view(request, id):
 
     doc_path = 'media/' + str(doc.document)
 
+    filename = Path(doc_path)
+    filename = filename.name
+    print(filename)
+
     print(doc_path)
 
     print(doc_path[-3:])
     
     if doc_path[-3:] in ('txt', 'csv'):
-        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = '1', content_type = 'text/plain')
-        response['Content-Disposition'] = 'attachment; filename="download.txt"'
+        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = filename, content_type = 'text/plain')
     else:
-        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = '1', content_type = 'application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="download.pdf"'
+        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = filename, content_type = 'application/pdf')
 
     return response

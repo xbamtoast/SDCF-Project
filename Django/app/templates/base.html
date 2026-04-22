@@ -45,6 +45,9 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'app:documents_table' %}">File Uploads</a></li>
                             <li><a class="dropdown-item" href="{% url 'accounts:password_change_internal' %}">Change Password</a></li>
+                            {% if request.user.is_superuser %}
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
+                            {% endif %}
                         </ul>
                     </li>
 
