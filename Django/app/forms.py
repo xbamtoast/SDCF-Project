@@ -112,9 +112,19 @@ def build_answer_form(questions, data = None, filled_in = False, answer_texts = 
     if filled_in == False:
         for i in range(0, len(questions)):
             defaults.append('')
+            
     else:
-        for i in range(0, len(questions)):
-            defaults.append(answer_texts[i])
+
+        if len(questions) == len(answer_texts):
+            for i in range(0, len(questions)):
+                defaults.append(answer_texts[i])
+
+        elif len(questions) > len(answer_texts):
+            for i in range(0, len(answer_texts)):
+                defaults.append(answer_texts[i])
+            for i in range(0, len(questions) - len(answer_texts)):
+                defaults.append('')
+
 
     j = 0
     fields = {}
@@ -163,7 +173,6 @@ def build_answer_form(questions, data = None, filled_in = False, answer_texts = 
                 required=question.required,
                 initial = defaults[j]
             )
-
         j += 1
 
     return type('AnswerForm', (forms.BaseForm,), {'base_fields': fields})(data)

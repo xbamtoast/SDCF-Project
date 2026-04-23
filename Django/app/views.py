@@ -159,7 +159,7 @@ def recipient_agreement_detail(request, form_id, submission_id):
 
     answer_texts = []
     for i in answers:
-        answer_texts.append(i.answer_text)
+        answer_texts.append(i.answer_text)    
 
     answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
     
