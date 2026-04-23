@@ -112,7 +112,7 @@ def build_answer_form(questions, data = None, filled_in = False, answer_texts = 
     if filled_in == False:
         for i in range(0, len(questions)):
             defaults.append('')
-            
+
     else:
 
         if len(questions) == len(answer_texts):
@@ -124,6 +124,10 @@ def build_answer_form(questions, data = None, filled_in = False, answer_texts = 
                 defaults.append(answer_texts[i])
             for i in range(0, len(questions) - len(answer_texts)):
                 defaults.append('')
+        
+        else:
+            for i in range(0, len(questions)):
+                defaults.append(answer_texts[i])
 
 
     j = 0
