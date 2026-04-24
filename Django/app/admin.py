@@ -1,12 +1,8 @@
 from django.contrib import admin
 from .models import SchoolDistrict, Form, Question, Submission, Answer
 
-# admin.site.register(SchoolDistrict)
-# admin.site.register(Form)
-admin.site.register(Question)
-
 from django.contrib import admin
-from .models import SchoolDistrict, Form, Question, Submission, Answer
+from .models import SchoolDistrict, Form, Question, Submission, Answer, Comment
 
 # Register your models here.
 
@@ -42,8 +38,28 @@ class QuestionInline(admin.TabularInline):
 @admin.register(Form)
 class FormAdmin(admin.ModelAdmin):
     list_display = ['name', 'due_date']
-    fields = ['name', 'due_date', 'intro_text', 'footer_text', 'footer_link', 'footer_link_label']
+    fields = ['name', 'due_date', 'intro_text', 'footer_text', 'footer_link', 'footer_link_label', 'is_active']
     inlines = [QuestionInline]
 
-# def generatepdf(data: dict, output_path: str):
-#     pdf = FPDF()
+# Function for cloning a form
+    actions = ["clone_form"]
+    def clone_form(self, request, queryset):
+        for form in queryset:
+            old_form_id = form.id
+
+            form.pk = None
+            form.name = f"{form.name} (Copy)"
+            form.save()
+            new_form = form
+
+            questions = Question.objects.filter(form_id=old_form_id).order_by("order")
+            print('Found:', questions.count())
+
+            for q in questions:
+                q.pk = None
+                q.form = new_form
+                q.save()
+
+    clone_form.short_description = "Duplicate Form"
+
+admin.site.register(Comment)
