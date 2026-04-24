@@ -20,27 +20,7 @@ class Document(models.Model):
     description = models.CharField(max_length = 255, blank = True)
     document = models.FileField(upload_to='documents/')
     uploaded_at = models.DateTimeField(auto_now_add = True)
-
-# class RecipientAgreementForm(BaseSubmission):
-
-#     approval_date = models.DateField()
-#     printed_name = models.TextField()
-#     recipient_title = models.TextField()
-#     recipient_signature_date = models.DateField()
-
-# class GlobalVariables(models.Model):
-
-#     value_desc = models.TextField()
-#     value_actual = models.TextField()
-#     # For instance, a value_desc could be "Submission Due Date" and then value_actual could be "December 19, 2026"
-
-
-
-
-
-
-
-
+    uploaded_by = models.TextField()
 
 class SchoolDistrict(models.Model):
     name = models.CharField(max_length=200)
@@ -59,6 +39,7 @@ class Form(models.Model):
     footer_text = models.TextField(blank=True)
     footer_link = models.URLField(blank=True)
     footer_link_label = models.CharField(max_length=200, blank=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -99,7 +80,6 @@ class Submission(models.Model):
     def __str__(self):
         return f"{self.form.name} - {self.school_district} - {self.submitted_at}"
     
-
 class Answer(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name='answers')
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
