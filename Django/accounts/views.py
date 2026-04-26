@@ -5,6 +5,10 @@ from .forms import RegisterForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.shortcuts import render
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -54,3 +58,25 @@ def password_change_internal(request):
 def password_change_internal_success(request):
 
     return render(request, 'misc/password_change_internal_success.html')
+
+def remind_username(request):
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        User = get_user_model()
+        try:
+            user = User.objects.get(email=email)
+            send_mail(
+                'Your Username Reminder',
+                f'Hello, your username is: {user.username}',
+                'from@example.com',
+                [email],
+            )
+        except User.DoesNotExist:
+            # For security, you may want to show the same "sent" message
+            pass
+    else:
+        form = PasswordChangeForm(request.user)
+
+    
+    return render(request, 'registration/remind_username.html')

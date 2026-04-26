@@ -63,3 +63,4 @@ class FormAdmin(admin.ModelAdmin):
     clone_form.short_description = "Duplicate Form"
 
 admin.site.register(Comment)
+admin.site.register(Question)

@@ -61,7 +61,7 @@
         {% endif %}
         {% endif %}
 
-        {% if "award" in form_obj.name|lower form_obj.id == 2 %}
+        {% if "award" in form_obj.name|lower or form_obj.id == 2 %}
         <button type="submit" style = "background-color:green;">
             <a href = "{% url 'app:dynamic_form_detail' form_id=2 submission_id=submission.id %}" 
             style = "color:white;text-decoration:none;">Save</a></button>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Hope Grant Application{% endblock %}
+{% comment %} doing this so that the link is in a head tag {% endcomment %}
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class = "form-container">
+<h2>Forgot Username?</h2>
+<h6>Enter your email and check for a reminder.</h6>
+<br>
+<form method="post" action="{% url 'accounts:remind_username' %}">
+  {% csrf_token %}
+  <label for="email">Email:</label><br>
+  <input type="text" id="email" name="email"><br>
+  <button type="submit">What's My Name?</button>
+</form>
+</div>
+
+{% endblock %}
