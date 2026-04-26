@@ -68,11 +68,13 @@
                     </li>
                 </ul>
                 <p style = "padding-right:25px;padding-top:14px;">Logged in as: <span style = "font-weight:bold;color:blue;">{{request.user}}</span></p>
-                <form method = "POST">
-                {% csrf_token %}
-                    <button class="btn btn-outline-success" type="submit"
-                        style="background-color:maroon;color:white;font-weight:bold;border:solid 2px black;"><a href = "{% url 'accounts:user_login' %}" 
-                        style = "color:white;text-decoration:none;">Log Out</a></button>
+                <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-success" 
+                            type="submit"
+                            style="background-color:maroon; color:white; font-weight:bold; border:solid 2px black;">
+                        Log Out
+                    </button>
                 </form>
                 {% endif %}
 

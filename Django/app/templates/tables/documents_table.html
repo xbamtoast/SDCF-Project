@@ -10,11 +10,12 @@
 <div class="table-container">
 
     <h1>File Uploads</h1>
-    <h6>Welcome! Here, you can view uploaded files.</h6>
+    <h6>Welcome! Here, you can view and download uploaded files.</h6>
     <hr>
     <div id = "instructions" style = "padding-left:10px;">
     <h4>Instructions</h4>
     <ul>
+        <li><strong>Download</strong> a file by clicking the blue links in the "File Name" column.</li>
         <li><strong>Filter</strong> the table by entering row text or a before/after submission date.</li>
         <li><strong>Sort</strong> the table by clicking a yellow table header.</li>
         <li><strong>Download</strong> a submission to PDF by clicking the Download link.</li>
@@ -54,15 +55,17 @@
             <tr>
                 <th onclick="sortTable(0)">Document ID</th>
                 <th onclick="sortTable(1)">File Name</th>
-                <th onclick="sortTable(2)">Uploaded At</th>
-                <th onclick="sortTable(3)">Uploaded By</th>
+                <th onclick="sortTable(2)">Description</th>
+                <th onclick="sortTable(3)">Uploaded At</th>
+                <th onclick="sortTable(4)">Uploaded By</th>
             </tr>
         </thead>
         <tbody>
             {% for item in page_obj %}
             <tr>
                 <td>{{item.id}}</td>
-                <td><a href = "{% url 'app:download_document' id=item.id %}" download>{{item.document}}</a></td>
+                <td><a href = "{% url 'app:download_document' id=item.id %}" download>{{item.document_name}}</a></td>
+                <td>{{item.description}}</td>
                 <td>{{item.uploaded_at}}</td>
                 <td>{{item.uploaded_by}}</td>
             </tr>

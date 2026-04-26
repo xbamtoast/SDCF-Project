@@ -9,17 +9,16 @@
 {% block content %}
 
 <div class="form-container">
-    <h1>Welcome to the Silver Dollar City Foundation Portal</h1>
-    <p>Please select an action below:</p>
     <div class="button-group">
-        <h1>Landing Page</h1>
+        <h1>Hope Grant Portal</h1>
+        <p>Please select an action below:</p>
+        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=1 %}">New Hope Grant Application</a>
+        <a class= "link-item" href="{% url 'app:submissions_table' %}">Submitted Applications</a>
+        <a class= "link-item" href="{% url 'app:agreements_table' %}">Award Agreements</a>
         <a class= "link-item" href="{% url 'app:upload_document' %}">W9 Upload</a>
-        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=1 %}">Hope Grant Application New</a>
-        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=2 %}">Mid-Year Application New</a>
-        <a class= "link-item" href="{% url 'app:submissions_table' %}">Application Table</a>
-        <a class= "link-item" href="{% url 'app:agreements_table' %}">Agreements Table</a>
-        <a class= "link-item" href="{% url 'accounts:password_change_internal' %}">Change Password Internal</a>
-        <a class= "link-item" href="{% url 'app:documents_table' %}">Files</a>
+        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=2 %}">Mid-Year Grant Report</a>
+        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=3 %}">End-Year Grant Report</a>
+        <a class= "link-item" href="{% url 'app:documents_table' %}">Submitted Files</a>
     </div>
 </div>
 

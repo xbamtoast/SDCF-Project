@@ -44,6 +44,7 @@ def upload_document(request):
         if form.is_valid():
             instance = form.save(commit = False)
             instance.uploaded_by = request.user
+            instance.document_name = str(instance.document).replace('documents/', '')
             instance.save()
             return redirect('app:home')
         else:

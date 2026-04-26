@@ -24,8 +24,9 @@ def validate_file_size(value):
         raise ValidationError(f'File too large. Size should not exceed {constant} MB.')
 
 class Document(models.Model):
-    description = models.CharField(max_length = 255, blank = True)
+    description = models.CharField(max_length = 48, blank = True)
     document = models.FileField(upload_to='documents/', validators = [validate_file_size])
+    document_name = models.TextField()
     uploaded_at = models.DateTimeField(auto_now_add = True)
     uploaded_by = models.TextField()
 
