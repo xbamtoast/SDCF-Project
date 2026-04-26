@@ -56,11 +56,11 @@
             {{ form_obj.footer_link_label|default:"Click here" }}
         </a>
         {% endif %}
-        <button type="submit" name = "award_data_save">Save</button>
+        <button type="submit" name = "award_data_save">Save Data</button>
     </form>
 
     {% if not signature %}
-    <form method = "POST">
+    <form method = "POST" style = "padding-top:15px;">
         {% csrf_token %}
         <label>Signature:</label>
         <br>
@@ -69,7 +69,7 @@
         </canvas><br>
         <button type="button" onclick="clearCanvas()">Clear Signature</button><br><br>
         <input type="hidden" name="signature" id="signature_input">
-        <button type="submit" id = "save_my_signature" name = "signature_save">Save Signature</button>
+        <button type="submit" id = "save_my_signature" name = "signature_save">Sign Agreement</button>
     </form>
     {% else %}
         <h2>Signature</h2>

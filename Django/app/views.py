@@ -2,6 +2,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.files.base import ContentFile
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import HttpResponse, FileResponse
@@ -16,20 +17,16 @@ from .models import Form, Question, Submission, Document, Answer, SchoolDistrict
 
 # Other Imports
 
+import base64
 from datetime import datetime
+import json
 from pathlib import Path
 from xhtml2pdf import pisa
+import uuid
 
 # Import variable
 
 recipient_agreement_id = 2
-
-import base64
-from django.core.files.base import ContentFile
-from django.http import JsonResponse
-import json
-import uuid
-
 
 # Home/landing page view
 
