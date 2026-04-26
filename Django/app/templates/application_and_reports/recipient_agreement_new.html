@@ -17,20 +17,20 @@
     <h2>Information Section</h2>
 
     {% if form_obj.due_date %}
-    <p>Please submit by: <span id = "due-date">{{ form_obj.due_date }}</span></p>
+    <p>Please submit by: <span id="due-date">{{ form_obj.due_date }}</span></p>
     {% endif %}
 
     {% if form_obj.intro_text %}
     {{ form_obj.intro_text|linebreaks }}
     {% endif %}
 
-    
+
 
     <form method="POST">
 
         {% csrf_token %}
 
-        <div id = "hide_this" style = "display:none;">
+        <div id="hide_this" style="display:none;">
             <h2>Contact Information</h2>
             <div>{{ submission_form.first_name.label_tag }} {{ submission_form.first_name }}</div>
             <div>{{ submission_form.last_name.label_tag }} {{ submission_form.last_name }}</div>
@@ -56,10 +56,28 @@
             {{ form_obj.footer_link_label|default:"Click here" }}
         </a>
         {% endif %}
-
-        <button type="submit">Save</button>
-
+        <button type="submit" name = "award_data_save">Save</button>
     </form>
+
+    {% if not signature %}
+    <form method = "POST">
+        {% csrf_token %}
+        <label>Signature:</label>
+        <br>
+        <canvas id="signature" width="400" height="200" style="border:1px solid #000;">
+            <img src="{% get_media_prefix %}drawings/temp.png" alt="Default Avatar">
+        </canvas><br>
+        <button type="button" onclick="clearCanvas()">Clear Signature</button><br><br>
+        <input type="hidden" name="signature" id="signature_input">
+        <button type="submit" id = "save_my_signature" name = "signature_save">Save Signature</button>
+    </form>
+    {% else %}
+        <h2>Signature</h2>
+        <img src = "{{signature.image.url}}" alt = "Image of Signature">
+    {% endif %}
+
+
 </div>
+<script src="{% static 'js/signature.js' %}"></script>
 
 {% endblock %}

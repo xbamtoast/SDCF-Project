@@ -103,3 +103,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     form = models.ForeignKey(Form, on_delete = models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete = models.CASCADE)
+
+class UserSignature(models.Model):
+    image = models.ImageField(upload_to='drawings/')
+    submission = models.IntegerField()
+    submitted_by = models.TextField()

@@ -12,7 +12,7 @@ from django.template.loader import get_template
 
 from .forms import DocumentFormTest
 from .forms import SubmissionForm, CommentForm, build_answer_form
-from .models import Form, Question, Submission, Document, Answer, SchoolDistrict, Comment
+from .models import Form, Question, Submission, Document, Answer, SchoolDistrict, Comment, UserSignature
 
 # Other Imports
 
@@ -23,6 +23,13 @@ from xhtml2pdf import pisa
 # Import variable
 
 recipient_agreement_id = 2
+
+import base64
+from django.core.files.base import ContentFile
+from django.http import JsonResponse
+import json
+import uuid
+
 
 # Home/landing page view
 
@@ -184,22 +191,28 @@ def recipient_agreement_detail(request, form_id, submission_id):
 
     form_obj = get_object_or_404(Form, id = form_id)
 
+    # Fetch the signature if it already exists. Otherwise, it is empty and the user will be able to sign it.
+
+    signature_obj = UserSignature.objects.filter(submission = submission_id)
+    if signature_obj:
+        signature_obj = signature_obj[0]
+
     # Read in the Submission object.
     
     submission = get_object_or_404(Submission, id = submission_id)
     submission_form = SubmissionForm(instance = submission)
     target_user = submission.submitted_by
 
-    if (submission.submitted_by != request.user.username) and ((request.user.is_staff == False) and (request.user.is_superuser == False)):
-        return render(request, 'miscellaneous/permission_denied.html', context = {})
+    # Check if the user is staff, or if the user is tied to this award agreement.
+
+    if ((request.user.is_staff == False) and (request.user.is_superuser == False)):
+        if (submission.submitted_by != request.user.username): 
+            return render(request, 'miscellaneous/permission_denied.html', context = {})
 
     # Read in the Answer objects.
 
     questions = Question.objects.filter(form = form_obj)
     answers = Answer.objects.filter(submission_id = submission_id)
-
-    for i in answers:
-        print(i.id)
 
     answer_texts = []
     for i in answers:
@@ -207,7 +220,7 @@ def recipient_agreement_detail(request, form_id, submission_id):
 
     answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
 
-    if request.method == "POST":
+    if "award_data_save" in request.POST:
 
         submission_form = SubmissionForm(request.POST, instance = submission)
         answer_form = build_answer_form(questions, request.POST)
@@ -222,17 +235,42 @@ def recipient_agreement_detail(request, form_id, submission_id):
             new_texts = []
             for question in questions:
                 new_texts.append(answer_form.cleaned_data.get(f'question_{question.id}', ''))
-            print(new_texts)
 
             for i in range(0, len(answers)):
-                Answer.objects.filter(id = answers[i].id).update(answer_text = new_texts[i])              
+                Answer.objects.filter(id = answers[i].id).update(answer_text = new_texts[i])
+
+    elif "signature_save" in request.POST:
+
+        data_dict = request.POST.dict()
+        json_data = json.dumps(data_dict)
+        data = json.loads(json_data)
+        image_data = data.get('signature')
+        print(image_data)
+
+        format, imgstr = image_data.split(';base64,') 
+        ext = format.split('/')[-1] 
+        
+        # Decode and create a Django File object
+        file_name = f"sig_{uuid.uuid4()}.{ext}"
+        data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+        
+        # Save to model
+
+        instance = UserSignature(image=data)
+        instance.submission = submission_id
+        instance.submitted_by = request.user.username
+        instance.save()
+        return redirect(request.path_info)
+        
     else:
+
         print(submission_form.errors)
         print(answer_form.errors)
         submission_form = SubmissionForm(instance = submission)
         answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
 
-    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form}
+    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form,
+               'signature':signature_obj}
 
     return render(request, 'application_and_reports/recipient_agreement_new.html', context = context)
 
