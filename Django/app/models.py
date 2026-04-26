@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 #  Making an abstract base model since all 3 forms will use these specific fields
@@ -16,9 +17,15 @@ class BaseSubmission(models.Model):
     class Meta:
         abstract = True
 
+def validate_file_size(value):
+    constant = 5
+    limit = constant * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError(f'File too large. Size should not exceed {constant} MB.')
+
 class Document(models.Model):
     description = models.CharField(max_length = 255, blank = True)
-    document = models.FileField(upload_to='documents/')
+    document = models.FileField(upload_to='documents/', validators = [validate_file_size])
     uploaded_at = models.DateTimeField(auto_now_add = True)
     uploaded_by = models.TextField()
 

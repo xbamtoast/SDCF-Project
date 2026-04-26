@@ -1,6 +1,7 @@
 from django import forms
 from .models import Document
 from .models import Submission, Answer, Question, Comment
+
 """
 class HopeGrantApplicationForm(forms.ModelForm):
     class Meta:
@@ -85,7 +86,7 @@ class EndYearReportForm(forms.ModelForm):
 class DocumentFormTest(forms.ModelForm):
     class Meta:
         model = Document
-        fields = ('description', 'document', )
+        fields = ('description', 'document')
 
 class SubmissionForm(forms.ModelForm):
     class Meta:

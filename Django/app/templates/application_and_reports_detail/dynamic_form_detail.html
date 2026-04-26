@@ -53,13 +53,15 @@
         </a>
         {% endif %}
 
-        {% if form_obj.id == 1  and request.user.is_staff %}
+        {% if "hope" in form_obj.name|lower or form_obj.id == 1 %}
+        {% if request.user.is_staff %}
         <button type="submit" style = "background-color:green;">
             <a href = "{% url 'app:recipient_form' reference_submission=submission.id %}" 
             style = "color:white;text-decoration:none;">Create Approval</a></button>
         {% endif %}
+        {% endif %}
 
-        {% if form_obj.id == 2 %}
+        {% if "award" in form_obj.name|lower form_obj.id == 2 %}
         <button type="submit" style = "background-color:green;">
             <a href = "{% url 'app:dynamic_form_detail' form_id=2 submission_id=submission.id %}" 
             style = "color:white;text-decoration:none;">Save</a></button>
@@ -68,49 +70,52 @@
     </form>
 </div>
 
-<section id = "comment-section-down" style = "margin-top:50px;">
-<hr id = "comment_hr" style = "margin-bottom:25px;">
-    <h1>Comments and Notes</h1>
-    <h5>Need to leave a note?</h5>
-    <h5>View and write comments here.</h5>
-    {% localtime on %}
-    {% for comment in comment_obj %}
-        <div class="comment">
-            <p class = "comment_header"><strong>{{ comment.name }}</strong> wrote:</p>
-            <p class = "comment_text">{{ comment.message }}</p>
-            <p class = "timestamp">
-                {% localtime on %} 
-                    {{comment.created_at}} 
-                    {% endlocaltime %}
-                </p>
+    {% if request.user.is_staff %}
+    <section id = "comment-section-down" style = "margin-top:50px;">
+    <hr id = "comment_hr" style = "margin-bottom:25px;">
+        <h1>Comments and Notes</h1>
+        <h5>Need to leave a note?</h5>
+        <h5>View and write comments here.</h5>
+        {% localtime on %}
+        {% for comment in comment_obj %}
+            <div class="comment">
+                <p class = "comment_header"><strong>{{ comment.name }}</strong> wrote:</p>
+                <p class = "comment_text">{{ comment.message }}</p>
+                <p class = "timestamp">
+                    {% localtime on %} 
+                        {{comment.created_at}} 
+                        {% endlocaltime %}
+                    </p>
+            </div>
+        {% empty %}
+            <p style = "padding-top:20px;">No comments yet.</p>
+        {% endfor %}
+        
+        <div class="pagination">
+            <span class="step-links">
+                {% if comment_obj.has_previous %}
+                <a href="?page=1#comment-section-down">&laquo; first</a>
+                <a href="?page={{ comment_obj.previous_page_number }}#comment-section-down">previous</a>
+                {% endif %}
+                <span class="current">Page {{ comment_obj.number }} of {{ comment_obj.paginator.num_pages }}.</span>
+                {% if comment_obj.has_next %}
+                <a href="?page={{ comment_obj.next_page_number }}#comment-section-down">next</a>
+                <a href="?page={{ comment_obj.paginator.num_pages }}#comment-section-down">last &raquo;</a>
+                {% endif %}
+            </span>
         </div>
-    {% empty %}
-        <p style = "padding-top:20px;">No comments yet.</p>
-    {% endfor %}
-    
-    <div class="pagination">
-        <span class="step-links">
-            {% if comment_obj.has_previous %}
-            <a href="?page=1#comment-section-down">&laquo; first</a>
-            <a href="?page={{ comment_obj.previous_page_number }}#comment-section-down">previous</a>
-            {% endif %}
-            <span class="current">Page {{ comment_obj.number }} of {{ comment_obj.paginator.num_pages }}.</span>
-            {% if comment_obj.has_next %}
-            <a href="?page={{ comment_obj.next_page_number }}#comment-section-down">next</a>
-            <a href="?page={{ comment_obj.paginator.num_pages }}#comment-section-down">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
 
-<div class = "form-container" style = "margin-left:0;margin-top:25px;">
-    <form method="POST">
-        <h2>Write Something...</h2>
-        {% csrf_token %}
-            <div>{{ commentform.name.label_tag }} {{ commentform.name }}</div>
-            <div>{{ commentform.message.label_tag }} {{ commentform.message }}</div>
-        <button type="submit" id="btn-midyear-submit">Submit Comment</button>
-    </form>
-    </div>
-</section>
+    <div class = "form-container" style = "margin-left:0;margin-top:25px;">
+        <form method="POST">
+            <h2>Write Something...</h2>
+            {% csrf_token %}
+                <div>{{ commentform.name.label_tag }} {{ commentform.name }}</div>
+                <div>{{ commentform.message.label_tag }} {{ commentform.message }}</div>
+            <button type="submit" id="btn-midyear-submit">Submit Comment</button>
+        </form>
+        </div>
+    </section>
+
 {% endlocaltime %}
+{% endif %}
 {% endblock %}

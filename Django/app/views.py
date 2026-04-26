@@ -19,6 +19,10 @@ from datetime import datetime
 from pathlib import Path
 from xhtml2pdf import pisa
 
+# Import variable
+
+recipient_agreement_id = 2
+
 # Home/landing page view
 
 def directory(request):
@@ -35,8 +39,11 @@ def w9_upload(request):
         form = DocumentFormTest(request.POST, request.FILES)
         print(request.FILES)
         if form.is_valid():
-            form.save()
-            print('Success')
+            instance = form.save(commit = False)
+            # upload_string = str(instance.document).replace('documents/', '')
+            # instance.document = upload_string
+            instance.uploaded_by = request.user
+            instance.save()
             return redirect('app:home')
         else:
             print(form.errors)
@@ -143,6 +150,7 @@ def recipient_agreement_detail(request, form_id, submission_id):
     
     submission = get_object_or_404(Submission, id = submission_id)
     submission_form = SubmissionForm(instance = submission)
+    target_user = submission.submitted_by
 
     if (submission.submitted_by != request.user.username) and ((request.user.is_staff == False) and (request.user.is_superuser == False)):
         return render(request, 'miscellaneous/permission_denied.html', context = {})
@@ -152,30 +160,41 @@ def recipient_agreement_detail(request, form_id, submission_id):
     questions = Question.objects.filter(form = form_obj)
     answers = Answer.objects.filter(submission_id = submission_id)
 
-    comments = Comment.objects.filter(form_id = form_id, submission_id = submission_id)
-    paginator = Paginator(comments, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    for i in answers:
+        print(i.id)
 
     answer_texts = []
     for i in answers:
-        answer_texts.append(i.answer_text)    
+        answer_texts.append(i.answer_text)   
 
     answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
-    
-    if request.method == "POST":
-        commentform = CommentForm(request.POST)
-        if commentform.is_valid():
-            instance = commentform.save(commit = False)
-            instance.form_id = form_id
-            instance.submission_id = submission_id
-            instance.save()
-            return redirect(f'/dynamic-form/{form_id}/{submission_id}/?page={page_obj.paginator.num_pages}#comment-section-down')
-    else:
-        commentform = CommentForm()
 
-    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form, 'commentform':commentform, 'comments':comments,
-               'comment_obj':page_obj}
+    if request.method == "POST":
+
+        submission_form = SubmissionForm(request.POST, instance = submission)
+        answer_form = build_answer_form(questions, request.POST)
+
+        if submission_form.is_valid() and answer_form.is_valid():
+
+            submission = submission_form.save(commit=False)
+            submission.submitted_by = target_user
+            submission.form = form_obj
+            submission.save()
+
+            new_texts = []
+            for question in questions:
+                new_texts.append(answer_form.cleaned_data.get(f'question_{question.id}', ''))
+            print(new_texts)
+
+            for i in range(0, len(answers)):
+                Answer.objects.filter(id = answers[i].id).update(answer_text = new_texts[i])              
+    else:
+        print(submission_form.errors)
+        print(answer_form.errors)
+        submission_form = SubmissionForm(instance = submission)
+        answer_form = build_answer_form(questions, data = None, filled_in = True,  answer_texts = answer_texts)
+
+    context = {'form_obj':form_obj, 'submission':submission, 'submission_form':submission_form, 'answer_form':answer_form}
 
     return render(request, 'application_and_reports/recipient_agreement_new.html', context = context)
 
@@ -222,9 +241,7 @@ def submissions_table(request):
 
 def agreements_table(request):
 
-    # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS!
-
-    recipient_agreement_id = 2
+    # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS
 
     sublist = Submission.objects.filter(form_id = recipient_agreement_id)
 
@@ -302,7 +319,6 @@ def create_pdf(request, form_id, submission_id):
 
 def recipient_form(request, reference_submission):
 
-    recipient_agreement_id = 2
     form_obj = get_object_or_404(Form, id=recipient_agreement_id)
     questions = Question.objects.filter(form=form_obj)
     reference_submission = get_object_or_404(Submission, id = reference_submission)
@@ -364,8 +380,7 @@ def documents_table(request):
     sublist = Document.objects.all()
 
     if request.user.is_staff == False and request.user.is_superuser == False:
-        #sublist = Document.objects.filter(submitted_by = request.user.username)
-        pass
+        sublist = sublist.filter(uploaded_by = request.user.username)
 
     query = request.GET.get('search')
     if query:
