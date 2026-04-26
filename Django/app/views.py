@@ -180,6 +180,64 @@ def dynamic_form_detail(request, form_id, submission_id):
 
     return render(request, 'application_and_reports_detail/dynamic_form_detail.html', context = context)
 
+# Award Agreement View
+
+def recipient_form(request, reference_submission):
+
+    form_obj = get_object_or_404(Form, id=recipient_agreement_id)
+    questions = Question.objects.filter(form=form_obj)
+    reference_submission = get_object_or_404(Submission, id = reference_submission)
+
+    today = datetime.today()
+    reference_first = reference_submission.first_name
+    reference_last = reference_submission.last_name
+    reference_project_title = reference_submission.project_name
+    reference_email = reference_submission.email
+    reference_school_district = reference_submission.school_district
+    reference_user = reference_submission.submitted_by
+
+    answer_texts = [today, reference_first + ' ' + reference_last, reference_email, '', '', '', '']
+
+    data = {'first_name':reference_first,
+                'last_name':reference_last,
+                'email':reference_email,
+                'project_name':reference_project_title,
+                'school_district':reference_school_district,
+                'submitted_by':reference_user
+                }    
+    
+    submission_form = SubmissionForm(initial=data)
+
+    if request.method == 'POST':
+
+        submission_form = SubmissionForm(request.POST)
+        answer_form = build_answer_form(questions, request.POST)
+        
+        if submission_form.is_valid() and answer_form.is_valid():
+
+            submission = submission_form.save(commit=False)
+            submission.submitted_by = reference_user
+            submission.form = form_obj
+            submission.save()
+
+            for question in questions:
+                Answer.objects.create(
+                    submission=submission,
+                    question=question,
+                    answer_text=answer_form.cleaned_data.get(f'question_{question.id}', '')
+                )
+                
+            return redirect('app:home')
+    else:
+        submission_form = SubmissionForm(initial = data)
+        answer_form = build_answer_form(questions, data = None, filled_in = True, answer_texts = answer_texts)
+
+    return render(request, 'application_and_reports/recipient_agreement_new.html', {
+        'form_obj': form_obj,
+        'submission_form': submission_form,
+        'answer_form': answer_form,
+    })
+
 # View for a recipient agreement with filled in data from a submission.
 
 def recipient_agreement_detail(request, form_id, submission_id):
@@ -389,62 +447,6 @@ def create_pdf(request, form_id, submission_id):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
-
-def recipient_form(request, reference_submission):
-
-    form_obj = get_object_or_404(Form, id=recipient_agreement_id)
-    questions = Question.objects.filter(form=form_obj)
-    reference_submission = get_object_or_404(Submission, id = reference_submission)
-
-    today = datetime.today()
-    reference_first = reference_submission.first_name
-    reference_last = reference_submission.last_name
-    reference_project_title = reference_submission.project_name
-    reference_email = reference_submission.email
-    reference_school_district = reference_submission.school_district
-    reference_user = reference_submission.submitted_by
-
-    answer_texts = [today, reference_first + ' ' + reference_last, reference_email, '', '', '', '']
-
-    data = {'first_name':reference_first,
-                'last_name':reference_last,
-                'email':reference_email,
-                'project_name':reference_project_title,
-                'school_district':reference_school_district,
-                'submitted_by':reference_user
-                }    
-    
-    submission_form = SubmissionForm(initial=data)
-
-    if request.method == 'POST':
-
-        submission_form = SubmissionForm(request.POST)
-        answer_form = build_answer_form(questions, request.POST)
-        
-        if submission_form.is_valid() and answer_form.is_valid():
-
-            submission = submission_form.save(commit=False)
-            submission.submitted_by = reference_user
-            submission.form = form_obj
-            submission.save()
-
-            for question in questions:
-                Answer.objects.create(
-                    submission=submission,
-                    question=question,
-                    answer_text=answer_form.cleaned_data.get(f'question_{question.id}', '')
-                )
-                
-            return redirect('app:home')
-    else:
-        submission_form = SubmissionForm(initial = data)
-        answer_form = build_answer_form(questions, data = None, filled_in = True, answer_texts = answer_texts)
-
-    return render(request, 'application_and_reports/recipient_agreement_new.html', {
-        'form_obj': form_obj,
-        'submission_form': submission_form,
-        'answer_form': answer_form,
-    })
 
 # Documents table
 
