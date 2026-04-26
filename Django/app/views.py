@@ -1,5 +1,6 @@
 # Django Imports
 
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -34,14 +35,14 @@ def home(request):
 def landing_page(request):
     return render(request, 'landing.html')
 
-def w9_upload(request):
+# This view helps upload documents (namely, W9s) to the media folder.
+
+@login_required
+def upload_document(request):
     if request.method == 'POST':
         form = DocumentFormTest(request.POST, request.FILES)
-        print(request.FILES)
         if form.is_valid():
             instance = form.save(commit = False)
-            # upload_string = str(instance.document).replace('documents/', '')
-            # instance.document = upload_string
             instance.uploaded_by = request.user
             instance.save()
             return redirect('app:home')
@@ -49,7 +50,43 @@ def w9_upload(request):
             print(form.errors)
     else:
         form = DocumentFormTest()
+
     return render(request, 'miscellaneous/w9_upload.html', {'form': form})
+
+# This view helps download documents from the media folder on the documents table page.
+
+@login_required
+def download_document(request, id):
+
+    # Get the document object from the database.
+
+    document_object = get_object_or_404(Document, id = id)
+
+    # Check if the current user is staff. 
+    # If they are not staff, check if the current user uploaded the document object.
+    # If this check fails, send them to the Permission Denied page.
+
+    if request.user.is_staff == False:
+        if document_object.uploaded_by != request.user.username:
+            return render(request, 'miscellaneous/permission_denied.html')
+    
+    # Point to the media folder.
+
+    document_path = 'media/' + str(document_object.document)
+    print(document_path)
+    # Store the filename for the download.
+    
+    filename = Path(document_path)
+    filename = filename.name
+    
+    # Is it a text file or a PDF?
+
+    if document_path[-3:] in ('txt', 'csv'):
+        response = FileResponse(open(document_path, 'rb'), as_attachment = True, filename = filename, content_type = 'text/plain')
+    else:
+        response = FileResponse(open(document_path, 'rb'), as_attachment = True, filename = filename, content_type = 'application/pdf')
+
+    return response
 
 # Blank Recipient Agreement View
 
@@ -404,24 +441,3 @@ def documents_table(request):
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
 
     return render(request, 'tables/documents_table.html', context = context)
-
-def download_view(request, id):
-
-    doc = get_object_or_404(Document, id = id)
-
-    doc_path = 'media/' + str(doc.document)
-
-    filename = Path(doc_path)
-    filename = filename.name
-    print(filename)
-
-    print(doc_path)
-
-    print(doc_path[-3:])
-    
-    if doc_path[-3:] in ('txt', 'csv'):
-        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = filename, content_type = 'text/plain')
-    else:
-        response = FileResponse(open(doc_path, 'rb'), as_attachment=True, filename = filename, content_type = 'application/pdf')
-
-    return response

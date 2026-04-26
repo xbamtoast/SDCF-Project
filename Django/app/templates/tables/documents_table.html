@@ -53,7 +53,7 @@
         <thead class="table-dark">
             <tr>
                 <th onclick="sortTable(0)">Document ID</th>
-                <th onclick="sortTable(1)">Name</th>
+                <th onclick="sortTable(1)">File Name</th>
                 <th onclick="sortTable(2)">Uploaded At</th>
                 <th onclick="sortTable(3)">Uploaded By</th>
             </tr>
@@ -62,8 +62,8 @@
             {% for item in page_obj %}
             <tr>
                 <td>{{item.id}}</td>
+                <td><a href = "{% url 'app:download_document' id=item.id %}" download>{{item.document}}</a></td>
                 <td>{{item.uploaded_at}}</td>
-                <td><a href = "{% url 'app:download_view' id=item.id %}" download>{{item.document}}</a></td>
                 <td>{{item.uploaded_by}}</td>
             </tr>
             {% endfor %}

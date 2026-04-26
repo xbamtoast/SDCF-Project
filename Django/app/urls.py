@@ -8,7 +8,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('directory', views.directory, name = 'directory'),
     path('recipient_agreement/', views.recipient_agreement, name='recipient_agreement'),
-    path('w9_upload/', views.w9_upload, name='w9_upload'),
+    path('w9_upload/', views.upload_document, name='upload_document'),
 
     # Kinley Blank Forms to Submit
 
@@ -48,6 +48,6 @@ urlpatterns = [
 
     # Download a Document
 
-    path("document-download/<int:id>/", views.download_view, name="download_view"),
+    path("document-download/<int:id>/", views.download_document, name="download_document"),
 
 ]
