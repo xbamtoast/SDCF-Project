@@ -22,3 +22,6 @@ class RegisterForm(UserCreationForm):
 
         def __init__(self, user, *args, **kwargs):
             super().__init__(user, *args, **kwargs)
+            
+class ForgotUsernameForm(forms.Form):
+    email = forms.EmailField()

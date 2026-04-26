@@ -8,14 +8,13 @@
 {% endblock %}
 
 {% block content %}
-<div class = "form-container">
-<h2>Reset Password</h2>
-<p>Please enter the email associated with your account.</p>
-<form method="post" action="{% url 'accounts:password_reset' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Send reset email</button>
-</form>
+<div class="form-container">
+    <h2>Forgot Username</h2>
+    <p>Please enter the email associated with your account.</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Send Username</button>
+    </form>
 </div>
-
 {% endblock %}

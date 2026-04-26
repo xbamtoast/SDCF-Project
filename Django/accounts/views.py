@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import RegisterForm
+from .forms import ForgotUsernameForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
-from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
-from django.shortcuts import render
 
 def user_login(request):
     if request.method == 'POST':
@@ -59,24 +58,28 @@ def password_change_internal_success(request):
 
     return render(request, 'misc/password_change_internal_success.html')
 
-def remind_username(request):
+def forgot_username(request):
+    if request.method == "POST":
+        form = ForgotUsernameForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
 
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        User = get_user_model()
-        try:
-            user = User.objects.get(email=email)
-            send_mail(
-                'Your Username Reminder',
-                f'Hello, your username is: {user.username}',
-                'from@example.com',
-                [email],
-            )
-        except User.DoesNotExist:
-            # For security, you may want to show the same "sent" message
-            pass
+            users = User.objects.filter(email=email)
+
+            if users.exists():
+                usernames = [user.username for user in users]
+
+                send_mail(
+                    subject="Your Username",
+                    message=f"Your username(s): {', '.join(usernames)}",
+                    from_email="noreply@yourdomain.com",
+                    recipient_list=[email],
+                )
+
+            # Always show same response for security
+            return render(request, "forgot_username_done.html")
+
     else:
-        form = PasswordChangeForm(request.user)
+        form = ForgotUsernameForm()
 
-    
-    return render(request, 'registration/remind_username.html')
+    return render(request, "forgot_username.html", {"form": form})

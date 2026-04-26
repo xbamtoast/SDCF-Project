@@ -31,23 +31,21 @@
         <input type="text" name="username" id="username" placeholder="Username" required><br>
         <label>Password:</label>
         <input type="password" name="password" id="password" placeholder="Password" required><br>
-        <label for="role">Login as:</label>
-        <select name="role" id="role">
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-        </select><br>
 
         <button type="submit">Login</button>
 
         <button type="button" id="createAccountBtn" class="secondary-btn" style = "padding:5px;"><a href = "{% url 'accounts:user_register' %}">
             Create Account</a>
         </button>
-        <button type="button" id="forgotUserBtn" class="secondary-btn" style = "padding:5px;"><a href = "{% url 'accounts:remind_username' %}">
+
+        <button type="button" id="forgotUsernameBtn" class="secondary-btn" style = "padding:5px;"><a href = "{% url 'accounts:forgot_username' %}">
             Forgot Username</a>
         </button>
+
         <button type="button" id="forgotPasswordBtn" class="secondary-btn" style = "padding:5px;"><a href = "{% url 'accounts:password_reset' %}">
-            Forgot Password</a>
+            Reset Password</a>
         </button>
+
     </form>
 
     <p id="message"></p>

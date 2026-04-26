@@ -17,6 +17,6 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('password-change-internal/', views.password_change_internal, name='password_change_internal'),
     path('password-change-internal-success/', views.password_change_internal_success, name='password_change_internal_success'),
-    path('remind-username/', views.remind_username, name='remind_username'),
+    path("forgot-username/", views.forgot_username, name="forgot_username"),
 
 ]
