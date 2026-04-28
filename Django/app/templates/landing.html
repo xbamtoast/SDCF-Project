@@ -15,7 +15,7 @@
         {% for form in forms %}
                 {% if "agreement" not in form.name|lower %}
                 <a class= "link-item" href="{% url 'app:dynamic_form' form_id=form.id %}">
-                    {{ form.name }}
+                    New {{ form.name }}
                     </a>
                 {% endif %}
             </a>
