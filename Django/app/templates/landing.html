@@ -12,12 +12,17 @@
     <div class="button-group">
         <h1>Hope Grant Portal</h1>
         <p>Please select an action below:</p>
-        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=1 %}">New Hope Grant Application</a>
+        {% for form in forms %}
+                {% if "award" not in form.name|lower %}
+                <a class= "link-item" href="{% url 'app:dynamic_form' form_id=form.id %}">
+                    {{ form.name }}
+                    </a>
+                {% endif %}
+            </a>
+        {% endfor %}
         <a class= "link-item" href="{% url 'app:submissions_table' %}">Submitted Applications</a>
         <a class= "link-item" href="{% url 'app:agreements_table' %}">Award Agreements</a>
         <a class= "link-item" href="{% url 'app:upload_document' %}">W9 Upload</a>
-        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=2 %}">Mid-Year Grant Report</a>
-        <a class= "link-item" href="{% url 'app:dynamic_form' form_id=3 %}">End-Year Grant Report</a>
         <a class= "link-item" href="{% url 'app:documents_table' %}">Submitted Files</a>
     </div>
 </div>

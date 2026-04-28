@@ -34,7 +34,8 @@ def directory(request):
     return render(request, 'miscellaneous/directory.html')
 
 def home(request):
-    return render(request, 'landing.html')
+    forms = Form.objects.filter(is_active = True)
+    return render(request, "landing.html", {"forms": forms})
 
 def landing_page(request):
     return render(request, 'landing.html')

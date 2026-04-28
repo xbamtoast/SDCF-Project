@@ -23,7 +23,7 @@
 
             <a class="navbar-brand" href="{% url 'accounts:user_login' %}"><img src="{% static 'img/logo.png' %}" width=267></a>
 
-            {% if request.resolver_match.url_name not in "user_login user_register password_reset forgot_username password_reset_done" %}
+            {% if request.resolver_match.url_name not in "user_login user_register password_reset password_reset_done forgot_username" %}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
