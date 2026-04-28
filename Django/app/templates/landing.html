@@ -13,7 +13,7 @@
         <h1>Hope Grant Portal</h1>
         <p>Please select an action below:</p>
         {% for form in forms %}
-                {% if "award" not in form.name|lower %}
+                {% if "agreement" not in form.name|lower %}
                 <a class= "link-item" href="{% url 'app:dynamic_form' form_id=form.id %}">
                     {{ form.name }}
                     </a>
