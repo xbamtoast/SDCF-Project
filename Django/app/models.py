@@ -90,7 +90,7 @@ class Submission(models.Model):
     
 class Answer(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name='answers')
-    question = models.ForeignKey(Question, on_delete=models.PROTECT)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField(blank=True)
 
     def __str__(self):
