@@ -73,6 +73,12 @@ body {
     width: 100%;
 }
 
+.navbar-collapse{
+    background-color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
 /* ── Hover Bar ── */
 .hover-bar {
     position: relative;

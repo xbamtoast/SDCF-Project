@@ -26,7 +26,7 @@ import uuid
 
 # Import variable
 
-recipient_agreement_id = 2
+recipient_agreement_id = Form.objects.filter(name__icontains='agree')[0].id
 
 # Home/landing page view
 
@@ -335,8 +335,6 @@ def recipient_agreement_detail(request, form_id, submission_id):
 def submissions_table(request):
 
     # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS!
-
-    recipient_agreement_id = 2
 
     sublist = Submission.objects.exclude(form_id = recipient_agreement_id)
 
