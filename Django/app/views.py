@@ -26,10 +26,8 @@ import uuid
 
 # Import variable
 
-recipient_agreement = Form.objects.filter(
-    name__icontains='agree'
-).first()
-recipient_agreement_id = recipient_agreement.id if recipient_agreement else None
+recipient_agreement = Form.objects.filter(name__icontains='agree').first()
+recipient_agreement_id = recipient_agreement.id if recipient_agreement else -1
 
 # Home/landing page view
 
