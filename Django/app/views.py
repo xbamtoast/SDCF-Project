@@ -26,7 +26,10 @@ import uuid
 
 # Import variable
 
-recipient_agreement_id = Form.objects.filter(name__icontains='agree')[0].id
+recipient_agreement = Form.objects.filter(
+    name__icontains='agree'
+).first()
+recipient_agreement_id = recipient_agreement.id if recipient_agreement else None
 
 # Home/landing page view
 
@@ -185,7 +188,7 @@ def dynamic_form_detail(request, form_id, submission_id):
 
 def recipient_form(request, reference_submission):
 
-    form_obj = get_object_or_404(Form, id=recipient_agreement_id)
+    form_obj = get_object_or_404(Form, id = recipient_agreement_id)
     questions = Question.objects.filter(form=form_obj)
     reference_submission = get_object_or_404(Submission, id = reference_submission)
 
@@ -336,7 +339,15 @@ def submissions_table(request):
 
     # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS!
 
-    sublist = Submission.objects.exclude(form_id = recipient_agreement_id)
+    sublist = Submission.objects.filter(
+        form__name__icontains="application"
+    ).exclude(
+        form__name__icontains="report"
+    ).exclude(
+        form_id=recipient_agreement_id
+    )
+
+    # sublist = Submission.objects.exclude(form_id = recipient_agreement_id)
 
     if request.user.is_staff == False and request.user.is_superuser == False:
         sublist = Submission.objects.filter(submitted_by = request.user.username)
@@ -478,3 +489,64 @@ def documents_table(request):
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
 
     return render(request, 'tables/documents_table.html', context = context)
+
+def reports_table(request):
+
+    # Only show report submissions
+    # Exclude recipient agreements
+    sublist = Submission.objects.exclude(
+        form_id=recipient_agreement_id
+    ).filter(
+        form__name__icontains='report'
+    )
+
+    # Restrict normal users to their own reports
+    if not request.user.is_staff and not request.user.is_superuser:
+        sublist = sublist.filter(
+            submitted_by=request.user.username
+        )
+
+    # Search filter
+    query = request.GET.get('search')
+    if query:
+        sublist = sublist.filter(
+            Q(submitted_by__icontains=query) |
+            Q(form__name__icontains=query) |
+            Q(school_district__name__icontains=query) |
+            Q(submitted_at__icontains=query)
+        )
+
+    # Date filters
+    date_query_before = request.GET.get('search_date_before')
+    if date_query_before:
+        sublist = sublist.filter(
+            submitted_at__lte=date_query_before
+        )
+
+    date_query_after = request.GET.get('search_date_after')
+    if date_query_after:
+        sublist = sublist.filter(
+            submitted_at__gte=date_query_after
+        )
+
+    # Sort newest first
+    sublist = sublist.order_by('-submitted_at')
+
+    # Pagination
+    paginator = Paginator(sublist, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'sublist': sublist,
+        'page_obj': page_obj,
+        'query': query,
+        'date_query_before': date_query_before,
+        'date_query_after': date_query_after
+    }
+
+    return render(
+        request,
+        'tables/reports_table.html',
+        context=context
+    )

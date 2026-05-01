@@ -104,6 +104,9 @@ class Comment(models.Model):
     form = models.ForeignKey(Form, on_delete = models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete = models.CASCADE)
 
+    def __str__(self):
+        return f"{self.form} - {self.submission} - {self.message[:30]}"
+
 class UserSignature(models.Model):
     image = models.ImageField(upload_to='drawings/')
     submission = models.IntegerField()

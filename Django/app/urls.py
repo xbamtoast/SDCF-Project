@@ -45,6 +45,10 @@ urlpatterns = [
     # Uploaded Files
 
     path("documents_table", views.documents_table, name="documents_table"),
+    
+    # Link to reports table
+    
+    path('reports_table', views.reports_table, name="reports_table"),
 
     # Download a Document
 

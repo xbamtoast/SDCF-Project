@@ -62,5 +62,10 @@ class FormAdmin(admin.ModelAdmin):
 
     clone_form.short_description = "Duplicate Form"
 
-admin.site.register(Comment)
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'form', 'submission', 'message', 'created_at')
+    list_filter = ('form', 'submission', 'created_at')
+    search_fields = ('name', 'message')
+    
 admin.site.register(Question)

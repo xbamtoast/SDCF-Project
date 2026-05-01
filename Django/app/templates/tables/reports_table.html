@@ -9,8 +9,8 @@
 {% block content %}
 <div class="table-container">
 
-    <h1>Award Agreements</h1>
-    <h6>Welcome! Here, you can view award agreements.</h6>
+    <h1>Submitted Reports</h1>
+    <h6>Welcome! Here, you can view submitted reports.</h6>
     <hr>
     <div id = "instructions" style = "padding-left:10px;">
     <h4>Instructions</h4>
@@ -24,7 +24,7 @@
     <hr>
     <div class="filters">
 
-        <form action="{% url 'app:agreements_table' %}" method="get">
+        <form action="{% url 'app:submissions_table' %}" method="get">
 
             <div class = "form-line">
                 <label for="search">Contains Text:</label>
@@ -64,7 +64,7 @@
             {% for item in page_obj %}
             <tr>
                 <td><a
-                        href="{% url 'app:recipient_agreement_detail' form_id=item.form_id submission_id=item.id %}">{{item.form_id}}-{{item.id}}</a>
+                        href="{% url 'app:dynamic_form_detail' form_id=item.form_id submission_id=item.id %}">{{item.form_id}}-{{item.id}}</a>
                 </td>
                 <td>{{item.form.name}}</td>
                 <td>{{item.school_district.name}}</td>
