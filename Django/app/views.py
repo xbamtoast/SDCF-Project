@@ -186,7 +186,12 @@ def dynamic_form_detail(request, form_id, submission_id):
 
 def recipient_form(request, reference_submission):
 
-    form_obj = get_object_or_404(Form, id = recipient_agreement_id)
+    if recipient_agreement_id == -1:
+        forms = Form.objects.filter(is_active = True)
+        return render(request, "landing.html", {"forms": forms})
+    else:
+        form_obj = get_object_or_404(Form, id = recipient_agreement_id)
+
     questions = Question.objects.filter(form=form_obj)
     reference_submission = get_object_or_404(Submission, id = reference_submission)
 
