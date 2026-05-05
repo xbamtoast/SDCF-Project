@@ -70,7 +70,7 @@ def forgot_username(request):
                 usernames = [user.username for user in users]
 
                 send_mail(
-                    subject="Your Username",
+                    subject="Your SDCF Username",
                     message=f"Your username(s): {', '.join(usernames)}",
                     from_email="noreply@yourdomain.com",
                     recipient_list=[email],
