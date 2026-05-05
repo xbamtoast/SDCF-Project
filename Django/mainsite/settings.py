@@ -147,8 +147,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 
 EMAIL_HOST_PASSWORD = """
 
-#test email in console
-
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -158,4 +156,4 @@ EMAIL_HOST_USER = 'sdcfjkrm@gmail.com'
 EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = ''
 
-#pw = sdcf20260509
+#gpw = sdcf202605....
