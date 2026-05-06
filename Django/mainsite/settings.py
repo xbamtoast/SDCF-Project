@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load environment variables.
 
@@ -106,8 +107,13 @@ DATABASES = {
     #     'USER': os.getenv('DB_USER'),
     #     'PASSWORD': os.getenv('DB_PASSWORD'),
     #     'HOST': os.getenv('DB_HOST'),   
-    #     'PORT': '3306',
+    #     'PORT': os.getenv('DB_PORT'),
     # }
+
+    # 'default': dj_database_url.config(
+    #     default=os.environ.get('DATABASE_URL'),
+    #     conn_max_age=600
+    # )
 
 }
 
