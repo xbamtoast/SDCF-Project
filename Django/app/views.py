@@ -24,11 +24,6 @@ from pathlib import Path
 from xhtml2pdf import pisa
 import uuid
 
-# Import variable
-
-#recipient_agreement = Form.objects.filter(name__icontains='agree').first()
-#recipient_agreement_id = recipient_agreement.id if recipient_agreement else -1
-
 # Home/landing page view
 
 def directory(request):
@@ -189,6 +184,9 @@ def dynamic_form_detail(request, form_id, submission_id):
 @login_required
 def recipient_form(request, reference_submission):
 
+    recipient_agreement = Form.objects.filter(name__icontains='agree').first()
+    recipient_agreement_id = recipient_agreement.id if recipient_agreement else -1
+
     if recipient_agreement_id == -1:
         forms = Form.objects.filter(is_active = True)
         return render(request, "landing.html", {"forms": forms})
@@ -346,6 +344,8 @@ def recipient_agreement_detail(request, form_id, submission_id):
 def submissions_table(request):
 
     # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS!
+    recipient_agreement = Form.objects.filter(name__icontains='agree').first()
+    recipient_agreement_id = recipient_agreement.id if recipient_agreement else -1
 
     sublist = Submission.objects.filter(
         form__name__icontains="application"
@@ -378,7 +378,7 @@ def submissions_table(request):
     if date_query_after:
         sublist = sublist.filter(submitted_at__gte=date_query_after)
 
-    paginator = Paginator(sublist, 8)
+    paginator = Paginator(sublist, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -392,6 +392,9 @@ def submissions_table(request):
 def agreements_table(request):
 
     # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS
+
+    recipient_agreement = Form.objects.filter(name__icontains='agree').first()
+    recipient_agreement_id = recipient_agreement.id if recipient_agreement else -1
 
     sublist = Submission.objects.filter(form_id = recipient_agreement_id)
 
@@ -416,7 +419,7 @@ def agreements_table(request):
     if date_query_after:
         sublist = sublist.filter(submitted_at__gte=date_query_after)
 
-    paginator = Paginator(sublist, 8)
+    paginator = Paginator(sublist, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'sublist':sublist, 'page_obj':page_obj, 'query':query, 'date_query_before':date_query_before, 'date_query_after':date_query_after}
@@ -493,7 +496,7 @@ def documents_table(request):
     if date_query_after:
         sublist = sublist.filter(uploaded_at__gte=date_query_after)
 
-    paginator = Paginator(sublist, 8)
+    paginator = Paginator(sublist, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -503,8 +506,9 @@ def documents_table(request):
 
 def reports_table(request):
 
-    # Only show report submissions
-    # Exclude recipient agreements
+    recipient_agreement = Form.objects.filter(name__icontains='agree').first()
+    recipient_agreement_id = recipient_agreement.id if recipient_agreement else -1
+
     sublist = Submission.objects.exclude(
         form_id=recipient_agreement_id
     ).filter(
@@ -544,7 +548,7 @@ def reports_table(request):
     sublist = sublist.order_by('-submitted_at')
 
     # Pagination
-    paginator = Paginator(sublist, 8)
+    paginator = Paginator(sublist, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
