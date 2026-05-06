@@ -102,6 +102,7 @@ def recipient_agreement(request): #view to render recipient agreement
 
 # View for a blank dynamic form.
 
+@login_required
 def dynamic_form(request, form_id):
 
     form_obj = get_object_or_404(Form, id=form_id)
@@ -136,6 +137,7 @@ def dynamic_form(request, form_id):
 
 # View for a dynamic form with filled in data from a submission.
 
+@login_required
 def dynamic_form_detail(request, form_id, submission_id):
 
     # Read in the Form object.
@@ -184,6 +186,7 @@ def dynamic_form_detail(request, form_id, submission_id):
 
 # Award Agreement View
 
+@login_required
 def recipient_form(request, reference_submission):
 
     if recipient_agreement_id == -1:
@@ -247,6 +250,7 @@ def recipient_form(request, reference_submission):
 
 # View for a recipient agreement with filled in data from a submission.
 
+@login_required
 def recipient_agreement_detail(request, form_id, submission_id):
 
     # Read in the Form object.
@@ -338,6 +342,7 @@ def recipient_agreement_detail(request, form_id, submission_id):
 
 # View for the submissions table (no recipient agreements)
 
+@login_required
 def submissions_table(request):
 
     # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS!
@@ -383,6 +388,7 @@ def submissions_table(request):
 
 # View for the agreements table.
 
+@login_required
 def agreements_table(request):
 
     # MAKE SURE YOU FILTER OUT THE RECIPIENT AGREEMENTS
@@ -418,6 +424,7 @@ def agreements_table(request):
 
 # View to create the PDF of submissions.
 
+@login_required
 def create_pdf(request, form_id, submission_id):
 
     form_obj = get_object_or_404(Form, id = form_id)
@@ -463,6 +470,7 @@ def create_pdf(request, form_id, submission_id):
 
 # Documents table
 
+@login_required
 def documents_table(request):
 
     sublist = Document.objects.all()

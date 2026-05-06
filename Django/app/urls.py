@@ -1,11 +1,13 @@
 from django.urls import include, path
 from . import views
+from django.views.generic.base import RedirectView
 
 app_name = 'app'
 
 urlpatterns = [
 
-    path('', views.home, name='home'),
+    path('', RedirectView.as_view(url='login/'), name='root-redirect'),
+    path('home', views.home, name='home'),
     path('directory', views.directory, name = 'directory'),
     path('recipient_agreement/', views.recipient_agreement, name='recipient_agreement'),
     path('w9_upload/', views.upload_document, name='upload_document'),
