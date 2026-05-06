@@ -34,17 +34,18 @@
 
         <button type="submit">Login</button>
 
-        <button type="button" id="createAccountBtn" class="secondary-btn" style = "padding:5px;"><a href = "{% url 'accounts:user_register' %}">
-            Create Account</a>
+        <button type="button" id="createAccountBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:user_register' %}">
+            <b>Create Account</b></a>
         </button>
 
-        <button type="button" id="forgotUsernameBtn" class="secondary-btn" style = "padding:5px;"><a href = "{% url 'accounts:forgot_username' %}">
-            Forgot Username</a>
+        <button type="button" id="forgotUsernameBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:forgot_username' %}">
+            <b>Forgot Username</b></a>
         </button>
 
-        <button type="button" id="forgotPasswordBtn" class="secondary-btn" style = "padding:5px;"><a href = "{% url 'accounts:password_reset' %}">
-            Reset Password</a>
+        <button type="button" id="forgotPasswordBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:password_reset' %}">
+            <b>Reset Password</b></a>
         </button>
+
 
     </form>
 
