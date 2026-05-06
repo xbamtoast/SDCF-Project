@@ -12,7 +12,8 @@
 
 <div class="form-container">
 
-    <h1>Grants Portal Login</h1> Please login or create an account below</h3>
+    <h1>SDCF Grants Portal Login</h1>
+    <p style = "padding-top:15px;font-size:20px;"><span style = "font-weight:bold;">Please login or create an account below.</span></p>
     <h2>Login</h2>
 
     <form id="loginForm" method="POST" action="{% url 'accounts:user_login' %}">
@@ -28,24 +29,25 @@
         {% endif %}
         
         <label>Username:</label>
-        <input type="text" name="username" id="username" placeholder="Username" required><br>
+        <input type="text" name="username" id="username" placeholder="Username" required><br><br>
         <label>Password:</label>
         <input type="password" name="password" id="password" placeholder="Password" required><br>
 
-        <button type="submit">Login</button>
+        <button type="submit"><b>Login</b></button>
 
-        <button type="button" id="createAccountBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:user_register' %}">
-            <b>Create Account</b></a>
-        </button>
+        <div style = "padding-top:10px">
+            <button type="button" id="createAccountBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:user_register' %}">
+                <b>Create Account</b></a>
+            </button>
 
-        <button type="button" id="forgotUsernameBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:forgot_username' %}">
-            <b>Forgot Username</b></a>
-        </button>
+            <button type="button" id="forgotUsernameBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:forgot_username' %}">
+                <b>Forgot Username</b></a>
+            </button>
 
-        <button type="button" id="forgotPasswordBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:password_reset' %}">
-            <b>Reset Password</b></a>
-        </button>
-
+            <button type="button" id="forgotPasswordBtn" class="secondary-btn" style = "padding:5px;width:135px;justify-content:center;"><a href = "{% url 'accounts:password_reset' %}">
+                <b>Reset Password</b></a>
+            </button>
+        </div>
 
     </form>
 
