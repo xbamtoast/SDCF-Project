@@ -18,7 +18,7 @@ class BaseSubmission(models.Model):
         abstract = True
 
 def validate_file_size(value):
-    constant = 5
+    constant = 1
     limit = constant * 1024 * 1024
     if value.size > limit:
         raise ValidationError(f'File too large. Size should not exceed {constant} MB.')

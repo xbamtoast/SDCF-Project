@@ -203,7 +203,7 @@ def recipient_form(request, reference_submission):
     reference_school_district = reference_submission.school_district
     reference_user = reference_submission.submitted_by
 
-    answer_texts = [today, reference_first + ' ' + reference_last, reference_email, '', '', '', '']
+    answer_texts = [today, reference_first + ' ' + reference_last, reference_email, '', '', '']
 
     data = {'first_name':reference_first,
                 'last_name':reference_last,
