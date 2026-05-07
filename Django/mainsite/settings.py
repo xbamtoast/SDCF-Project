@@ -40,7 +40,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.railway.app', '*']
 
 # Application definition
@@ -95,20 +95,20 @@ WSGI_APPLICATION = 'mainsite.wsgi.application'
 DATABASES = {
 
 
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # },
 
-    # 'default': 
-    # {
-    #     'ENGINE': os.getenv('DB_ENGINE'),
-    #     'NAME': os.getenv('DB_NAME'),
-    #     'USER': os.getenv('DB_USER'),
-    #     'PASSWORD': os.getenv('DB_PASSWORD'),
-    #     'HOST': os.getenv('DB_HOST'),   
-    #     'PORT': os.getenv('DB_PORT'),
-    # }
+    'default': 
+    {
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),   
+        'PORT': os.getenv('DB_PORT'),
+    }
 
     # 'default': dj_database_url.config(
     #     default=os.environ.get('DATABASE_URL'),
