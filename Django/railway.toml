@@ -1,0 +1,9 @@
+[build]
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+startCommand = "gunicorn mainsite.wsgi"
+
+[deploy.variables]
+RAILPACK_BUILD_APT_PACKAGES = "libcairo2-dev default-libmysqlclient-dev pkg-config"
+RAILPACK_DEPLOY_APT_PACKAGES = "libcairo2 libpango1.0-dev libgdk-pixbuf2.0-dev default-libmysqlclient-dev"
