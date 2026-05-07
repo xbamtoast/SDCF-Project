@@ -1,0 +1,7 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "buildAptPackages": ["libcairo2-dev", "default-libmysqlclient-dev", "pkg-config"],
+  "deploy": {
+    "aptPackages": ["libcairo2", "libpango1.0-dev", "libgdk-pixbuf2.0-dev", "default-libmysqlclient-dev"]
+  }
+}
